@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 type Role = "member" | "admin" | "finance" | "committee";
 
-interface IUser extends Document {
+export interface IUser extends Document {
     name: string;
     role: Role;
     email: string;
