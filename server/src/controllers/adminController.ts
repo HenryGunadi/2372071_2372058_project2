@@ -5,6 +5,7 @@ import { ThrowError } from "../middleware/throwError";
 import { selectUnknownFields } from "express-validator/lib/field-selection";
 import { createStaffSchema, findOrDeleteStaffSchema, updateStaffSchema } from "../validators/validators";
 import AdminService from "../services/adminService";
+import bycrypt from "bcrypt";
 
 export class AdminController {
     protected service: AdminService;
@@ -39,7 +40,9 @@ export class AdminController {
 
     public updateStaff = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            console.log("Update payload : ", req.body);
             const payload = updateStaffSchema.parse(req.body);
+
             await this.service.updateStaff(payload.email, payload.value);
 
             sendSuccessResponse(res);
@@ -63,9 +66,12 @@ export class AdminController {
 
     public createStaff = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            console.log("Create Staff Payload : ", req.body);
             const payload = createStaffSchema.parse(req.body);
-            await this.service.createStaff(payload);
+            const cost = 10;
 
+            payload.password = await bycrypt.hash(payload.password, cost);
+            await this.service.createStaff(payload);
             sendSuccessResponse(res);
         } catch (err) {
             console.error("Error getting staff in staff controller : ", err);

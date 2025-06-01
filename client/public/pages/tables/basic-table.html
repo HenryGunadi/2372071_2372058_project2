@@ -17,9 +17,111 @@
         <link rel="stylesheet" href="../../assetsStaff/css/style.css" />
         <!-- End layout styles -->
         <link rel="shortcut icon" href="../../assetsStaff/images/favicon.png" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     </head>
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-bottom: 8px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .sliderss {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 24px;
+        }
+        .sliderss:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .sliderss {
+            background-color: #28a745;
+        }
+        input:checked + .sliderss:before {
+            transform: translateX(26px);
+        }
+        .status-label {
+            font-size: 0.85rem;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+        #changePassBtn {
+            display: block;
+            margin-top: 12px;
+        }
+    </style>
     <body>
         <div class="container-scroller">
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <!-- Header -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Edit Staff</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeModal"></button>
+                        </div>
+
+                        <!-- Body -->
+                        <form action="" method="PATCH" id="editStaffForm" data-type-mode="edit">
+                            <div class="modal-body">
+                                <label style="font-size: 0.85rem" for="modalName">Name</label>
+                                <input type="text" id="modalName" class="form-control mb-2" />
+
+                                <label style="font-size: 0.85rem" for="modalEmail">Email</label>
+                                <input type="email" id="modalEmail" class="form-control mb-2" />
+
+                                <label style="font-size: 0.85rem" for="modalRole">Position</label>
+                                <input type="text" id="modalRole" class="form-control mb-2" />
+
+                                <label for="modalStatus" style="font-size: 0.85rem">Status</label><br />
+                                <label class="switch">
+                                    <input type="checkbox" id="modalStatus" />
+                                    <span class="sliderss"></span>
+                                </label>
+                                <span class="status-label" id="statusText">Inactive</span>
+
+                                <button type="button" id="changePassBtn" class="btn btn-light mb-3 block">Change Password <i class="fas fa-caret-down" id="caretIcon"></i></button>
+                                <div id="passwordForm" style="display: none">
+                                    <label style="font-size: 0.85rem" for="modalPassword">New Password</label>
+                                    <input type="password" id="modalPassword" class="form-control mb-2" />
+
+                                    <label style="font-size: 0.85rem" for="modalConfirmPassword">Confirm Password</label>
+                                    <input type="password" id="modalConfirmPassword" class="form-control mb-2" />
+
+                                    <button type="button" id="confirmPassBtn" class="btn btn-success" style="margin-top: 5px">Confirm</button>
+                                </div>
+                            </div>
+
+                            <!-- Footer (Optional) -->
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" id="submitModal">Submit Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             <!-- partial:../../partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
@@ -480,7 +582,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">Striped Table</h4>
-                                        <p class="card-description">Add class <code>.table-striped</code></p>
+                                        <button id="createUserBtn" class="btn btn-light mb-3" data-bs-toggle="modal" data-bs-target="#myModal">Create Staff</button>
                                         <div class="table-responsive">
                                             <table class="table table-striped">
                                                 <thead>
@@ -492,23 +594,7 @@
                                                         <th>Enroll Date</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="staff-content">
-                                                    <!-- table content -->
-                                                    <tr>
-                                                        <td class="py-1">
-                                                            <img src="../../assetsStaff/images/faces-clipart/pic-2.png" alt="image" />
-                                                        </td>
-                                                        <td>Messsy Adam</td>
-                                                        <!-- <td>
-                                                            <div class="progress">
-                                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </td> -->
-                                                        <td>Finance</td>
-                                                        <td>Active</td>
-                                                        <td>July 1, 2015</td>
-                                                    </tr>
-                                                </tbody>
+                                                <tbody id="staff-content"></tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -767,9 +853,13 @@
         <script src="../../assetsStaff/js/misc.js"></script>
         <script src="../../assetsStaff/js/settings.js"></script>
         <script src="../../assetsStaff/js/todolist.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             const baseAPI = "http://localhost:8080/api";
             let token;
+
+            const statusCheckbox = document.getElementById("modalStatus");
+            const statusText = document.getElementById("statusText");
 
             document.addEventListener("DOMContentLoaded", async () => {
                 let content = ``;
@@ -790,14 +880,30 @@
                     content = data.data
                         .map(
                             (user) => `
-                                <tr>
-                                    <td class="py-1">
+                                <tr class="align-middle">
+                                    <td class="py-2">
                                         <img src="../../assetsStaff/images/faces-clipart/pic-2.png" alt="image" />
                                     </td>
                                     <td>${user.name}</td>
                                     <td>${user.email}</td>
                                     <td>${user.role}</td>
                                     <td>${new Date(user.created_at).toISOString().split("T")[0]}</td>
+                                    <td>
+                                        <button
+                                            class="fw-bold btn btn-light openEditModal w-100"
+                                            data-user-name="${user.name}"
+                                            data-user-email="${user.email}"
+                                            data-user-role="${user.role}"
+                                            data-user-id="${user.id}"
+                                            data-user-status="${user.status}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#myModal">
+                                            Edit
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger w-100 deleteStaff" data-user-email="${user.email}">Delete</button>
+                                    </td>
                                 </tr>
                             `
                         )
@@ -806,6 +912,200 @@
                     document.getElementById("staff-content").innerHTML = content;
                 } catch (err) {
                     console.error("Error get request at basic-table.html : ", err);
+                }
+            });
+            let password;
+            let usersEmail;
+
+            document.getElementById("closeModal").addEventListener("click", (e) => {
+                e.preventDefault();
+
+                usersEmail = "";
+                document.getElementById("modalName").value = "";
+                document.getElementById("modalEmail").value = "";
+                document.getElementById("modalRole").value = "";
+                document.getElementById("statusText").textContent = "";
+                document.getElementById("modalPassword").value = "";
+            });
+
+            document.getElementById("createUserBtn").addEventListener("click", () => {
+                document.getElementById("passwordForm").style.display = "block";
+                document.getElementById("changePassBtn").style.display = "none";
+                document.getElementById("submitModal").innerText = "Create User";
+                document.getElementById("editStaffForm").dataset.typeMode = "create";
+                document.getElementById("editStaffForm").method = "POST";
+                document.getElementById("modalLabel").textContent = "Create Staff";
+            });
+
+            document.addEventListener("click", async (e) => {
+                try {
+                    const editBtn = e.target.closest(".openEditModal");
+                    if (editBtn) {
+                        const name = editBtn.dataset.userName;
+                        usersEmail = editBtn.dataset.userEmail;
+                        const position = editBtn.dataset.userRole;
+                        const status = editBtn.dataset.userStatus === "true";
+                        password = editBtn.dataset.userPassword;
+
+                        document.getElementById("modalName").value = name;
+                        document.getElementById("modalEmail").value = usersEmail;
+                        document.getElementById("modalRole").value = position;
+                        statusCheckbox.checked = status;
+                        document.getElementById("statusText").textContent = status ? "Active" : "Inactive";
+                        document.getElementById("modalPassword").value = password;
+                    }
+
+                    const deleteBtn = e.target.closest(".deleteStaff");
+                    if (deleteBtn) {
+                        document.getElementById("editStaffForm").method = "DELETE";
+
+                        const userEmail = deleteBtn.dataset.userEmail;
+                        const res = await fetch(`${baseAPI}/admin/deleteStaff/${userEmail}`, {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
+                        });
+                        const data = await res.json();
+                        console.log("Delete staff:", data);
+                        alert("Delete staff successful");
+                        return;
+                    }
+                } catch (err) {
+                    console.error("Delete or update staff error : ", err);
+                }
+            });
+
+            document.getElementById("editStaffForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const form = document.getElementById("editStaffForm");
+                const newName = document.getElementById("modalName").value;
+                const newEmail = document.getElementById("modalEmail").value;
+                const newRole = document.getElementById("modalRole").value;
+                const newStatus = document.getElementById("modalStatus").checked;
+                const newPassword = document.getElementById("modalPassword").value;
+                const updatePayload = {
+                    email: usersEmail,
+                    value: {
+                        name: newName,
+                        email: newEmail,
+                        role: newRole,
+                        status: newStatus,
+                        password: newPassword,
+                        updated_at: new Date(),
+                    },
+                };
+
+                const createPayload = {
+                    name: newName,
+                    email: newEmail,
+                    role: newRole,
+                    status: newStatus,
+                    password: newPassword,
+                    created_at: new Date(),
+                    updated_at: new Date(),
+                };
+
+                if (form.dataset.typeMode === "edit") {
+                    console.log("Update payload : ", updatePayload);
+
+                    try {
+                        const res = await fetch(`${baseAPI}/admin/updateStaff`, {
+                            method: form.method,
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify(updatePayload),
+                        });
+
+                        const data = await res.json();
+                        console.log("Update status : ", data);
+                        alert("Update successful");
+                        window.location.reload();
+                    } catch (err) {
+                        console.error("Update Error : ", err);
+                    }
+                } else if (form.dataset.typeMode === "create") {
+                    console.log("Create payload : ", createPayload);
+
+                    try {
+                        const res = await fetch(`${baseAPI}/admin/createStaff`, {
+                            method: form.method,
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify(createPayload),
+                        });
+
+                        const data = await res.json();
+                        console.log("Create status : ", data);
+                        alert("Create user successful");
+                        window.location.reload();
+                    } catch (err) {
+                        console.error("Error creating user : ", err);
+                    }
+                }
+            });
+
+            const changePassBtn = document.getElementById("changePassBtn");
+            const passwordForm = document.getElementById("passwordForm");
+
+            changePassBtn.addEventListener("click", () => {
+                if (passwordForm.style.display === "none" || passwordForm.style.display === "") {
+                    passwordForm.style.display = "block";
+                } else {
+                    passwordForm.style.display = "none";
+                    document.getElementById("modalPassword").value = password;
+                    console.log("password doesnt changed");
+                }
+            });
+
+            const confirmPassBtn = document.getElementById("confirmPassBtn");
+            confirmPassBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                const pass = document.getElementById("modalPassword").value;
+                const confirmPass = document.getElementById("modalConfirmPassword");
+
+                if (pass && pass === confirmPass.value) {
+                    alert("Password changed successfully!");
+                    // TODO: Add your logic to submit/save the new password
+                    // Hide form and show button again
+                    confirmPass.value = "";
+                    passwordForm.style.display = "none";
+                    changePassBtn.style.display = "inline-block";
+                } else {
+                    alert("Passwords do not match or are empty!");
+                    confirmPass.value = "";
+                }
+            });
+
+            statusCheckbox.addEventListener("change", () => {
+                const isChecked = statusCheckbox.checked;
+                statusText.textContent = isChecked ? "Active" : "Inactive";
+            });
+
+            function setStatusFromBackend(status) {
+                statusCheckbox.checked = status;
+                statusText.textContent = status ? "Active" : "Inactive";
+            }
+
+            const backendStatus = true;
+            setStatusFromBackend(backendStatus);
+
+            const btn = document.getElementById("changePassBtn");
+            const caret = document.getElementById("caretIcon");
+
+            btn.addEventListener("click", () => {
+                if (caret.classList.contains("fa-caret-down")) {
+                    caret.classList.remove("fa-caret-down");
+                    caret.classList.add("fa-caret-up");
+                } else {
+                    caret.classList.remove("fa-caret-up");
+                    caret.classList.add("fa-caret-down");
                 }
             });
         </script>

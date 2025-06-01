@@ -15,6 +15,7 @@ export const adminRouter = () => {
     router.get("/findStaff/:email", authMiddleware, roleMiddleware(["admin"]), adminController.findStaff);
     router.delete("/deleteStaff/:email", authMiddleware, roleMiddleware(["admin"]), adminController.deleteStaff);
     router.patch("/updateStaff", authMiddleware, roleMiddleware(["admin"]), adminController.updateStaff);
+    router.post("/createStaff", authMiddleware, roleMiddleware(["admin"]), adminController.createStaff);
 
     return router;
 };

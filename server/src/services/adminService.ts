@@ -26,9 +26,13 @@ class AdminService implements IAdminService {
 
     public async updateStaff(email: string, value: Partial<IUser>): Promise<void> {
         try {
+            if (!value.password) {
+                delete value.password;
+            }
+
             const result = await User.updateOne({ email: email }, { $set: value });
 
-            if (result.acknowledged) {
+            if (!result.acknowledged) {
                 throw new ThrowError("Update operation was not acknowledged.", 500);
             }
 
@@ -51,7 +55,7 @@ class AdminService implements IAdminService {
         try {
             const result = await User.deleteOne({ email: email });
 
-            if (result.acknowledged) {
+            if (!result.acknowledged) {
                 throw new ThrowError("Update operation was not acknowledged.", 500);
             }
 

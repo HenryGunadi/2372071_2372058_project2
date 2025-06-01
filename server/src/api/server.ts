@@ -41,11 +41,11 @@ export class APIServer {
         // 3. Static files middleware
         this.apiServer.use(express.static(publicPath));
 
-        // this.apiServer.get("/login", servePage("login.html"));
-        // this.apiServer.get("/register", servePage("register.html"));
-        // this.apiServer.get("/staffDashboard", servePage("staffDashboard.html"));
-        // this.apiServer.get("/dashboard", servePage("dashboard.html"));
-        // this.apiServer.get("/tables", servePage("pages/tables/basic-table.html"));
+        this.apiServer.get("/login", servePage("login.html"));
+        this.apiServer.get("/register", servePage("register.html"));
+        this.apiServer.get("/staffDashboard", servePage("staffDashboard.html"));
+        this.apiServer.get("/dashboard", servePage("dashboard.html"));
+        this.apiServer.get("/tables", servePage("pages/tables/basic-table.html"));
 
         this.apiServer.get(/(.*)/, servePage("dashboard.html"));
 
