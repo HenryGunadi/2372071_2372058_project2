@@ -1,11 +1,12 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-interface IEvent extends Document {
+export interface IEvent extends Document {
     title: string;
     time: Date;
     location: string;
     speaker: string;
     poster_uri: string;
+    status: boolean;
     price: number;
     max_participants: number;
     created_at: Date;
@@ -18,6 +19,7 @@ const EventSchema: Schema<IEvent> = new Schema({
     location: { type: String, required: true },
     speaker: { type: String, required: true },
     poster_uri: { type: String, required: true },
+    status: { type: Boolean, required: true },
     price: { type: Number, required: true },
     max_participants: { type: Number, required: true },
     created_at: { type: Date, required: true },

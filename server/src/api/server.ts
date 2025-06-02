@@ -37,6 +37,7 @@ export class APIServer {
         this.apiServer.use("/api/event", eventRouter());
         this.apiServer.use("/api/dashboard", dashboardRouter());
         this.apiServer.use("/api/admin", adminRouter());
+        this.apiServer.use("/api/event", eventRouter());
 
         // 3. Static files middleware
         this.apiServer.use(express.static(publicPath));

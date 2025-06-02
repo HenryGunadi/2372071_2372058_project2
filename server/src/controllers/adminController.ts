@@ -1,8 +1,5 @@
-import express, { Request, Response, NextFunction } from "express";
-import StaffService from "../services/adminService";
+import { Request, Response, NextFunction } from "express";
 import { sendErrorResponse, sendSuccessResponse } from "../utils/utils";
-import { ThrowError } from "../middleware/throwError";
-import { selectUnknownFields } from "express-validator/lib/field-selection";
 import { createStaffSchema, findOrDeleteStaffSchema, updateStaffSchema } from "../validators/validators";
 import AdminService from "../services/adminService";
 import bycrypt from "bcrypt";

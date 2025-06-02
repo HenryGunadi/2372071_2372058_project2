@@ -16,7 +16,7 @@ class AdminService implements IAdminService {
 
     public async getAllStaff(): Promise<Result<IUser>> {
         try {
-            const staff = await User.find({ role: { $in: ["admin", "finance", "committe"] } });
+            const staff = await User.find({ role: { $in: ["admin", "finance", "committee"] } });
             return staff;
         } catch (err) {
             console.error("Error getting all staff : ", err);
@@ -42,6 +42,7 @@ class AdminService implements IAdminService {
 
             if (result.modifiedCount === 0) {
                 console.log("No changes were made to the staff.");
+                throw new ThrowError("Error updating staff", 500, { error: "Something went wrong" });
             } else {
                 console.log("Staff updated successfully.");
             }

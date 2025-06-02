@@ -5,7 +5,7 @@ import { AuthRequest } from "../types/types";
 
 dotenv.config();
 
-export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction):void => {
+export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -29,16 +29,17 @@ export const authMiddleware = (req: AuthRequest, res: Response, next: NextFuncti
         next();
     } catch (err) {
         res.status(401).json({ message: "Invalid token" });
-        console.error("error in auth middleware: ", err)
-        return 
+        console.error("error in auth middleware: ", err);
+        return;
     }
 };
 
 export const roleMiddleware = (allowedRoles: string[]) => {
     return (req: AuthRequest, res: Response, next: NextFunction) => {
         if (!req.user || !allowedRoles.includes(req.user.role)) {
+            console.error("user role denied");
             res.status(403).json({ message: "Access denied" });
-            return
+            return;
         }
         next();
     };
