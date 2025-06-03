@@ -43,13 +43,30 @@ export const updateStaffSchema = z.object({
     value: userUpdateValueSchema,
 });
 
+const eventDaySchema = z.object({
+    date: z.preprocess((arg) => new Date(arg as string), z.date()),
+    start_time: z.string().min(1),
+    end_time: z.string().min(1),
+    location: z.string().min(1),
+    speaker: z.string().min(1),
+    status: z.boolean(),
+});
+
 export const createEventSchema = z.object({
     title: z.string().min(1),
     time: z.preprocess((arg) => new Date(arg as string), z.date()),
-    location: z.string().min(1),
-    speaker: z.string().min(1),
     price: z.preprocess((val) => Number(val), z.number().nonnegative()),
     max_participants: z.preprocess((val) => Number(val), z.number().int().positive()),
+    event_days: z.preprocess((val) => {
+        if (typeof val === "string") {
+            try {
+                return JSON.parse(val);
+            } catch {
+                return [];
+            }
+        }
+        return val;
+    }, z.array(eventDaySchema)),
 });
 
 export const updateEventSchema = z.object({

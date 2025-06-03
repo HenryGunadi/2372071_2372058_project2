@@ -41,6 +41,7 @@ export class APIServer {
 
         // 3. Static files middleware
         this.apiServer.use(express.static(publicPath));
+        this.apiServer.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
         this.apiServer.get("/login", servePage("login.html"));
         this.apiServer.get("/register", servePage("register.html"));

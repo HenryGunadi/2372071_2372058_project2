@@ -56,11 +56,29 @@ export class EventController {
         try {
             console.log("Create event payload : ", req.body);
             console.log(typeof req.body.max_participants);
+
             const posterUri = req.file?.filename ?? "";
+
+            // Validate and parse input
             const parsed = createEventSchema.parse(req.body);
 
+            // Helper function to combine date and time strings into a Date object
+            const combineDateAndTime = (date: Date, timeStr: string): Date => {
+                const [hours, minutes] = timeStr.split(":").map(Number);
+                return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours, minutes);
+            };
+
+            // Convert event_days start_time and end_time from string to Date
+            const fixedEventDays = parsed.event_days.map((ed) => ({
+                ...ed,
+                start_time: combineDateAndTime(ed.date, ed.start_time),
+                end_time: combineDateAndTime(ed.date, ed.end_time),
+            }));
+
+            // Construct the event object
             const event = {
                 ...parsed,
+                event_days: fixedEventDays,
                 poster_uri: posterUri,
                 created_at: new Date(),
                 updated_at: new Date(),

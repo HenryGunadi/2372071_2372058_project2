@@ -2,9 +2,11 @@ import multer from "multer";
 import path from "path";
 import { Request, Response } from "express";
 
+const uploadDir = path.resolve(__dirname, "../uploads");
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "../uploads");
+        cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);

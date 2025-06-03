@@ -22,6 +22,42 @@
     </head>
     <body>
         <div class="container-scroller">
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <!-- Header -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Add Event Day</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeModal"></button>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="modal-body">
+                            <label style="font-size: 0.85rem" for="modalSpeaker">Speaker</label>
+                            <input type="text" id="modalSpeaker" class="form-control mb-2" />
+
+                            <label style="font-size: 0.85rem" for="modalLocation">Location</label>
+                            <input type="text" id="modalLocation" class="form-control mb-2" />
+
+                            <label style="font-size: 0.85rem" for="modalDate">Date</label>
+                            <input type="date" id="modalDate" class="form-control mb-2" />
+
+                            <label style="font-size: 0.85rem" for="modalStartTime">Start Time</label>
+                            <input type="time" id="modalStartTime" class="form-control mb-2" />
+
+                            <label style="font-size: 0.85rem" for="modalEndTime">End Time</label>
+                            <input type="time" id="modalEndTime" class="form-control mb-2" />
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="addEvent">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- partial:../../partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
@@ -461,7 +497,7 @@
                                                 <label for="exampleInputName1">Title</label>
                                                 <input type="text" class="form-control" id="title" placeholder="Title" name="title" required />
                                             </div>
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label for="exampleInputEmail3">Time</label>
                                                 <input type="datetime-local" class="form-control" id="time" placeholder="Time" name="time" required />
                                             </div>
@@ -472,11 +508,8 @@
                                             <div class="form-group">
                                                 <label for="exampleSelectGender">Speaker</label>
                                                 <input type="text" class="form-control" id="speaker" placeholder="Speaker" name="speaker" required />
-                                                <!-- <select class="form-control" id="exampleSelectGender">
-                                                    <option>Male</option>
-                                                    <option>Female</option>
-                                                </select> -->
-                                            </div>
+                               
+                                            </div> -->
                                             <div class="form-group">
                                                 <label>Poster</label>
                                                 <input type="file" name="poster" class="file-upload-default" id="poster" accept="image/png, image/jpeg, image/jpg" />
@@ -506,6 +539,21 @@
                                                 <label for="exampleInputPassword4">Max Participants</label>
                                                 <input type="number" class="form-control" id="max_participants" placeholder="Max participants" name="max_participants" required />
                                             </div>
+                                            <div id="eventDaysList" class="mt-3" style="max-height: 300px; overflow-y: auto"></div>
+                                            <button
+                                                class="p-3 mb-4 btn-dark btn w-100"
+                                                data-user-name="${user.name}"
+                                                data-user-email="${user.email}"
+                                                data-user-role="${user.role}"
+                                                data-user-id="${user.id}"
+                                                data-user-status="${user.status}"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#myModal"
+                                                type="button"
+                                                id="addEventDay"
+                                            >
+                                                Add Event Day
+                                            </button>
                                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
                                             <button class="btn btn-dark">Cancel</button>
                                         </form>
@@ -971,9 +1019,11 @@
         <script src="../../assetsStaff/js/file-upload.js"></script>
         <script src="../../assetsStaff/js/typeahead.js"></script>
         <script src="../../assetsStaff/js/select2.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             const baseAPI = "http://localhost:8080/api";
             const token = localStorage.getItem("token");
+            const eventDays = [];
 
             document.getElementById("eventForm").addEventListener("submit", async (e) => {
                 e.preventDefault();
@@ -991,6 +1041,7 @@
                 formData.set("price", parseFloat(formData.get("price")));
                 formData.set("max_participants", parseInt(formData.get("max_participants")));
                 formData.set("time", new Date(formData.get("time")).toISOString());
+                formData.set("event_days", JSON.stringify(eventDays));
 
                 console.log("Create event payload (FormData):", [...formData.entries()]);
 
@@ -1018,6 +1069,83 @@
                     console.error("Error creating event : ", err);
                 }
             });
+
+            let editIndex = null;
+
+            document.getElementById("addEventDay").addEventListener("click", () => {
+                console.log("IM clicked");
+                document.getElementById("modalSpeaker").value = "";
+                document.getElementById("modalLocation").value = "";
+                document.getElementById("modalDate").value = "";
+                document.getElementById("modalStartTime").value = "";
+                document.getElementById("modalEndTime").value = "";
+
+                editIndex = null;
+                document.getElementById("addEvent").innerText = "Add";
+            });
+
+            // Handle modal submission
+            document.getElementById("addEvent").addEventListener("click", function () {
+                console.log("EVENT ADDED");
+                const speaker = document.getElementById("modalSpeaker").value.trim();
+                const location = document.getElementById("modalLocation").value.trim();
+                const date = document.getElementById("modalDate").value;
+                const start_time = document.getElementById("modalStartTime").value;
+                const end_time = document.getElementById("modalEndTime").value;
+
+                if (!speaker || !location || !date || !start_time || !end_time) {
+                    alert("Please fill in all fields.");
+                    return;
+                }
+
+                const eventDay = { speaker, location, date, start_time, end_time, status: true };
+
+                if (editIndex === null) {
+                    eventDays.push(eventDay);
+                } else {
+                    eventDays[editIndex] = eventDay;
+                }
+
+                renderEventDays();
+
+                const modalInstance = bootstrap.Modal.getInstance(document.getElementById("myModal"));
+                modalInstance.hide();
+            });
+
+            function renderEventDays() {
+                const container = document.getElementById("eventDaysList");
+                container.innerHTML = "";
+
+                eventDays.forEach((day, index) => {
+                    const dayElement = document.createElement("div");
+                    dayElement.className = "card p-3 mb-2";
+                    dayElement.style.cursor = "pointer";
+
+                    dayElement.innerHTML = `
+                        <strong class="mb-2 text-info">Day - ${index + 1}</strong>
+                        <strong style="">Speaker:</strong> <span style="color: gray;">${day.speaker}</span><br>
+                        <strong style="">Location:</strong> <span style="color: gray;">${day.location}</span><br>
+                        <strong style="">Date:</strong> <span style="color: gray;">${day.date}</span><br>
+                        <strong style="">Time:</strong> <span style="color: gray;">${day.startTime} - ${day.endTime}</span>
+                    `;
+
+                    dayElement.addEventListener("click", () => {
+                        document.getElementById("modalSpeaker").value = day.speaker;
+                        document.getElementById("modalLocation").value = day.location;
+                        document.getElementById("modalDate").value = day.date;
+                        document.getElementById("modalStartTime").value = day.startTime;
+                        document.getElementById("modalEndTime").value = day.endTime;
+
+                        editIndex = index;
+                        document.getElementById("addEvent").innerText = "Save Changes";
+
+                        const modal = new bootstrap.Modal(document.getElementById("myModal"));
+                        modal.show();
+                    });
+
+                    container.appendChild(dayElement);
+                });
+            }
         </script>
         <!-- End custom js for this page -->
     </body>
