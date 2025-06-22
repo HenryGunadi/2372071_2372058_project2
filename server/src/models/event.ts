@@ -12,8 +12,10 @@ export interface IEventDay {
 export interface IEvent extends Document {
     title: string;
     poster_uri: string;
+    deskripsi: string;
     status: boolean;
     max_participants: number;
+    total_registered?: number;
     price: number;
     event_days: IEventDay[];
     created_at: Date;
@@ -32,8 +34,10 @@ const EventDaySchema: Schema<IEventDay> = new Schema({
 const EventSchema: Schema<IEvent> = new Schema({
     title: { type: String, required: true },
     poster_uri: { type: String, required: true },
+    deskripsi: {type: String, required: true}, 
     status: { type: Boolean, required: true },
     max_participants: { type: Number, required: true },
+    total_registered: { type: Number, default: 0 },
     price: { type: Number, required: true },
     event_days: { type: [EventDaySchema], required: true },
     created_at: { type: Date, required: true },

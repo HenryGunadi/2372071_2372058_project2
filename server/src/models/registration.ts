@@ -15,9 +15,9 @@ interface IRegistration extends Document {
 
 const RegistrationSchema: Schema<IRegistration> = new Schema({
     status: { type: String, enum: ["pending", "paid", "rejected"], required: true },
-    proof_of_payment: { type: String, required: true },
+    proof_of_payment: { type: String, required: false},
     absence: { type: Boolean, required: true },
-    qr_code: { type: String, required: true },
+    qr_code: { type: String, required: false },
     user_id: { type: String, required: true },
     event_id: { type: String, required: true },
     created_at: { type: Date, required: true },

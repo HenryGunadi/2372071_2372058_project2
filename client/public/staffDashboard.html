@@ -1015,6 +1015,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             document.addEventListener("click", function (e) {
+                console.log("Logout clicked")
                 const logoutBtn = e.target.closest("#logout-btn");
                 if (logoutBtn) {
                     localStorage.removeItem("token");
@@ -1134,18 +1135,19 @@
                 const token = localStorage.getItem("token");
 
                 try {
-                    const res = await fetch("http://localhost:8080/api/staff/view", {
+                    const res = await fetch("http://localhost:8080/api/admin/checkStaff", {
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     });
 
-                    const data = await res.json();
-
                     if (!res.ok) {
+                        console.log("Gk boleh masuk")
                         window.location.href = "login.html";
                     }
+
+                    const data = await res.json();
                     // document.getElementByClass("main").style.display = "block";
                 } catch (err) {
                     console.error("Error during initial GET request:", err);

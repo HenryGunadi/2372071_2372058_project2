@@ -11,6 +11,7 @@ export const adminRouter = () => {
     const adminService = new AdminService();
     const adminController = new AdminController(adminService);
 
+    router.get("/checkStaff", authMiddleware, roleMiddleware(["admin", "committee", "finance"]));
     router.get("/viewAllStaff", authMiddleware, roleMiddleware(["admin"]), adminController.ViewAllStaff);
     router.get("/findStaff/:email", authMiddleware, roleMiddleware(["admin"]), adminController.findStaff);
     router.delete("/deleteStaff/:email", authMiddleware, roleMiddleware(["admin"]), adminController.deleteStaff);

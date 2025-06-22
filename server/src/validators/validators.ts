@@ -54,6 +54,7 @@ const eventDaySchema = z.object({
 
 export const createEventSchema = z.object({
     title: z.string().min(1),
+    deskripsi: z.string().min(10),
     time: z.preprocess((arg) => new Date(arg as string), z.date()),
     price: z.preprocess((val) => Number(val), z.number().nonnegative()),
     max_participants: z.preprocess((val) => Number(val), z.number().int().positive()),
@@ -82,4 +83,5 @@ export const updateEventSchema = z.object({
         created_at: z.preprocess((arg) => (typeof arg === "string" || arg instanceof Date ? new Date(arg) : undefined), z.date().optional()),
         updated_at: z.preprocess((arg) => (typeof arg === "string" || arg instanceof Date ? new Date(arg) : undefined), z.date().optional()),
     }),
+    
 });

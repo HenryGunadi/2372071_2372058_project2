@@ -6,6 +6,7 @@ import path from "path";
 import { eventRouter } from "../routes/eventRoute";
 import { dashboardRouter } from "../routes/dashboardRoute";
 import adminRouter from "../routes/adminRoute";
+import { authMiddleware, roleMiddleware } from "../middleware/authMiddleware";
 
 const publicPath = path.join(__dirname, "..", "..", "..", "client", "public");
 const indexPath = path.join(publicPath, "dashboard.html");

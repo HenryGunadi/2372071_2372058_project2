@@ -78,8 +78,11 @@ export class EventController {
             // Construct the event object
             const event = {
                 ...parsed,
+                deskripsi: parsed.deskripsi, 
                 event_days: fixedEventDays,
                 poster_uri: posterUri,
+                max_participants: Number(parsed.max_participants),
+                total_registered: 0,
                 created_at: new Date(),
                 updated_at: new Date(),
                 status: true,
@@ -97,4 +100,5 @@ export class EventController {
     public registerEvent(req: Request, res: Response, next: NextFunction) {
         return res.status(200).json({ message: "Event Register" });
     }
+
 }

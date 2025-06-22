@@ -14,8 +14,10 @@ export const eventRouter = () => {
     router.post("/createEvent", authMiddleware, roleMiddleware(["committee"]), upload.single("poster"), eventController.createEvent);
     router.patch("/updateEvent", authMiddleware, roleMiddleware(["committee"]), eventController.updateEvent);
     router.delete("/deleteEvent", authMiddleware, roleMiddleware(["committee"]), eventController.deleteEvent);
-    router.get("/viewEvents", authMiddleware, roleMiddleware(["committee"]), eventController.getAllEvent);
+    router.get("/viewEvents", eventController.getAllEvent);
     router.get("/findEvent", authMiddleware, roleMiddleware(["committee"]), eventController.findEvent);
+    router.get("/:id", eventController.findEvent);
+
 
     return router;
 };
