@@ -83,5 +83,9 @@ export const updateEventSchema = z.object({
         created_at: z.preprocess((arg) => (typeof arg === "string" || arg instanceof Date ? new Date(arg) : undefined), z.date().optional()),
         updated_at: z.preprocess((arg) => (typeof arg === "string" || arg instanceof Date ? new Date(arg) : undefined), z.date().optional()),
     }),
-    
+});
+
+export const registerEventSchema = z.object({
+    event_id: z.string().min(1),
+    email: z.string().email("Invalid email address"),
 });

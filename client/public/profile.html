@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>User Profile</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+        <meta charset="UTF-8" />
+        <title>Detail Event</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+        <!-- Favicons -->
+        <link href="assets/img/favicon.png" rel="icon" />
+        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Raleway:wght@300;400;700&display=swap" rel="stylesheet" />
+
+        <!-- Vendor CSS Files -->
+        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+        <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+        <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+        <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+        <!-- Main CSS File -->
+        <link href="assets/css/main.css" rel="stylesheet" />
+        <style>
+            :root {
+                --primary-black: #0a0a0a;
+                --secondary-black: #1a1a1a;
+                --accent-red: #dc2626;
+                --muted-red: #991b1b;
+                --light-gray: #f8f9fa;
+                --medium-gray: #6c757d;
+                --dark-gray: #343a40;
+                --border-gray: #2d2d2d;
+            }
+
+            body {
+                background: linear-gradient(135deg, var(--primary-black) 0%, var(--secondary-black) 100%);
+                color: var(--light-gray);
+                min-height: 100vh;
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            /* Header Styles */
+            .header {
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid var(--border-gray);
+                z-index: 1000;
+            }
+
+            .header .logo img {
+                max-height: 40px;
+            }
+
+            .navmenu ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+            }
+
+            .navmenu ul li {
+                margin: 0 15px;
+                position: relative;
+            }
+
+            .navmenu ul li a {
+                color: var(--light-gray);
+                text-decoration: none;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                padding: 8px 0;
+                border-bottom: 2px solid transparent;
+            }
+
+            .navmenu ul li a:hover,
+            .navmenu ul li a.active {
+                color: var(--accent-red);
+                border-bottom-color: var(--accent-red);
+            }
+
+            .cta-btn {
+                background: linear-gradient(45deg, var(--accent-red), var(--muted-red));
+                color: white;
+                padding: 10px 25px;
+                border-radius: 25px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+            }
+
+            .cta-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+                color: white;
+            }
+
+            /* Main Content */
+            .main-content {
+                margin-top: 100px;
+                padding: 40px 0;
+            }
+
+            .profile-card {
+                background: rgba(26, 26, 26, 0.8);
+                border: 1px solid var(--border-gray);
+                border-radius: 20px;
+                padding: 30px;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+
+            .profile-header {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .profile-avatar {
+                width: 120px;
+                height: 120px;
+                background: linear-gradient(45deg, var(--accent-red), var(--muted-red));
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 20px;
+                font-size: 48px;
+                color: white;
+                font-weight: bold;
+            }
+
+            .user-name {
+                font-size: 2rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+                background: linear-gradient(45deg, var(--accent-red), #ff4444);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .user-email {
+                color: var(--medium-gray);
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+                margin-bottom: 25px;
+                color: var(--light-gray);
+                border-bottom: 2px solid var(--accent-red);
+                padding-bottom: 10px;
+            }
+
+            .event-card {
+                background: rgba(26, 26, 26, 0.6);
+                border: 1px solid var(--border-gray);
+                border-radius: 15px;
+                padding: 25px;
+                margin-bottom: 20px;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .event-card::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, var(--accent-red), var(--muted-red));
+            }
+
+            .event-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(220, 38, 38, 0.2);
+            }
+
+            .event-poster {
+                width: 100px;
+                height: 100px;
+                border-radius: 10px;
+                object-fit: cover;
+                border: 2px solid var(--border-gray);
+            }
+
+            .event-title {
+                font-size: 1.3rem;
+                font-weight: 600;
+                color: var(--light-gray);
+                margin-bottom: 8px;
+            }
+
+            .event-description {
+                color: var(--medium-gray);
+                font-size: 0.9rem;
+                margin-bottom: 15px;
+                line-height: 1.5;
+            }
+
+            .status-badge {
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .status-pending {
+                background: rgba(255, 193, 7, 0.2);
+                color: #ffc107;
+                border: 1px solid #ffc107;
+            }
+
+            .status-paid {
+                background: rgba(40, 167, 69, 0.2);
+                color: #28a745;
+                border: 1px solid #28a745;
+            }
+
+            .status-rejected {
+                background: rgba(220, 53, 69, 0.2);
+                color: #dc3545;
+                border: 1px solid #dc3545;
+            }
+
+            .qr-code-container {
+                text-align: center;
+                padding: 20px;
+                background: white;
+                border-radius: 10px;
+                margin-top: 15px;
+            }
+
+            .qr-code {
+                max-width: 150px;
+                height: auto;
+            }
+
+            .event-details {
+                display: flex;
+                gap: 15px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+
+            .detail-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                color: var(--medium-gray);
+                font-size: 0.9rem;
+            }
+
+            .detail-item i {
+                color: var(--accent-red);
+            }
+
+            .loading-spinner {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 200px;
+            }
+
+            .spinner {
+                width: 40px;
+                height: 40px;
+                border: 3px solid var(--border-gray);
+                border-top: 3px solid var(--accent-red);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .no-events {
+                text-align: center;
+                padding: 60px 20px;
+                color: var(--medium-gray);
+            }
+
+            .no-events i {
+                font-size: 4rem;
+                color: var(--accent-red);
+                margin-bottom: 20px;
+            }
+
+            @media (max-width: 768px) {
+                .navmenu {
+                    display: none;
+                }
+
+                .profile-card {
+                    padding: 20px;
+                }
+
+                .event-card {
+                    padding: 20px;
+                }
+
+                .event-poster {
+                    width: 80px;
+                    height: 80px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header id="header" class="header d-flex align-items-center fixed-top">
+            <div class="container-fluid container-xl position-relative d-flex align-items-center">
+                <a href="index.html" class="logo d-flex align-items-center me-auto">
+                    <img src="assets/img/logo.png" alt="" />
+                </a>
+                <nav id="navmenu" class="navmenu">
+                    <ul>
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#speakers">Speakers</a></li>
+                        <li><a href="#schedule">Schedule</a></li>
+                        <li><a href="#venue">Venue</a></li>
+                        <li><a href="#hotels">Hotels</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li class="dropdown">
+                            <a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="#">Dropdown 1</a></li>
+                                <li class="dropdown">
+                                    <a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                                    <ul>
+                                        <li><a href="#">Deep Dropdown 1</a></li>
+                                        <li><a href="#">Deep Dropdown 2</a></li>
+                                        <li><a href="#">Deep Dropdown 3</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Dropdown 2</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#contact" class="active">Profile</a></li>
+                    </ul>
+                    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                </nav>
+                <a class="cta-btn d-none d-sm-block" id="auth-button" href="/logout">Logout</a>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="container">
+                <!-- User Profile Section -->
+                <div class="row justify-content-center mb-5">
+                    <div class="col-lg-8">
+                        <div class="profile-card">
+                            <div class="profile-header">
+                                <div class="profile-avatar" id="userAvatar">
+                                    <!-- User initials will be inserted here -->
+                                </div>
+                                <h1 class="user-name" id="userName">Loading...</h1>
+                                <p class="user-email" id="userEmail">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Registrations Section -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="profile-card">
+                            <h2 class="section-title"><i class="bi bi-calendar-event me-2"></i>My Event Registrations</h2>
+
+                            <div id="loadingSpinner" class="loading-spinner">
+                                <div class="spinner"></div>
+                            </div>
+
+                            <div id="eventsContainer" style="display: none">
+                                <!-- Events will be dynamically inserted here -->
+                            </div>
+
+                            <div id="noEvents" class="no-events" style="display: none">
+                                <i class="bi bi-calendar-x"></i>
+                                <h4>No Event Registrations</h4>
+                                <p>You haven't registered for any events yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <script>
+            const baseAPI = "http://localhost:8080/api";
+
+            // Mock user data - replace with actual fetch
+            const mockUser = {
+                name: "John Doe",
+                email: "john.doe@example.com",
+            };
+
+            const user = JSON.parse(localStorage.getItem("user"));
+
+            // Mock registration data - replace with actual fetch
+            const mockRegistrations = [
+                {
+                    _id: "1",
+                    status: "paid",
+                    qr_code: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==",
+                    created_at: "2024-01-15T10:00:00Z",
+                    event: {
+                        title: "Tech Conference 2024",
+                        poster_uri: "https://via.placeholder.com/100x100/dc2626/ffffff?text=TC",
+                        deskripsi: "Annual technology conference featuring the latest innovations and trends in software development.",
+                        price: 150,
+                        event_days: [
+                            {
+                                date: "2024-03-15T00:00:00Z",
+                                start_time: "2024-03-15T09:00:00Z",
+                                end_time: "2024-03-15T17:00:00Z",
+                                location: "Convention Center Hall A",
+                                speaker: "Dr. Jane Smith",
+                            },
+                        ],
+                    },
+                },
+                {
+                    _id: "2",
+                    status: "pending",
+                    qr_code: null,
+                    created_at: "2024-01-20T14:30:00Z",
+                    event: {
+                        title: "Digital Marketing Summit",
+                        poster_uri: "https://via.placeholder.com/100x100/991b1b/ffffff?text=DM",
+                        deskripsi: "Learn the latest digital marketing strategies and tools from industry experts.",
+                        price: 100,
+                        event_days: [
+                            {
+                                date: "2024-04-10T00:00:00Z",
+                                start_time: "2024-04-10T10:00:00Z",
+                                end_time: "2024-04-10T16:00:00Z",
+                                location: "Business Center Room 201",
+                                speaker: "Mark Johnson",
+                            },
+                        ],
+                    },
+                },
+                {
+                    _id: "3",
+                    status: "rejected",
+                    qr_code: null,
+                    created_at: "2024-01-25T16:45:00Z",
+                    event: {
+                        title: "AI & Machine Learning Workshop",
+                        poster_uri: "https://via.placeholder.com/100x100/dc2626/ffffff?text=AI",
+                        deskripsi: "Hands-on workshop covering artificial intelligence and machine learning fundamentals.",
+                        price: 200,
+                        event_days: [
+                            {
+                                date: "2024-05-20T00:00:00Z",
+                                start_time: "2024-05-20T09:30:00Z",
+                                end_time: "2024-05-20T17:30:00Z",
+                                location: "Tech Hub Lab 3",
+                                speaker: "Prof. Sarah Wilson",
+                            },
+                        ],
+                    },
+                },
+            ];
+
+            // Initialize page when DOM is loaded
+            document.addEventListener("DOMContentLoaded", function () {
+                loadUserProfile();
+                loadUserRegistrations();
+            });
+
+            // Load user profile
+            async function loadUserProfile() {
+                try {
+                    // Replace with actual API call
+                    // const response = await fetch('/api/user/profile');
+                    // const userData = await response.json();
+
+                    // Using mock data for now
+                    const userData = mockUser;
+
+                    displayUserProfile(userData);
+                } catch (error) {
+                    console.error("Error loading user profile:", error);
+                    // Handle error - maybe show error message
+                }
+            }
+
+            // Load user registrations
+            async function loadUserRegistrations() {
+                try {
+                    // Replace with actual API call
+                    // const response = await fetch('/api/user/registrations');
+                    // const registrations = await response.json();
+
+                    // Using mock data for now
+                    setTimeout(() => {
+                        const registrations = mockRegistrations;
+                        displayRegistrations(registrations);
+                    }, 1500); // Simulate loading time
+                } catch (error) {
+                    console.error("Error loading registrations:", error);
+                    document.getElementById("loadingSpinner").style.display = "none";
+                    document.getElementById("noEvents").style.display = "block";
+                }
+            }
+
+            // Display user profile
+            function displayUserProfile(user) {
+                const userNameEl = document.getElementById("userName");
+                const userEmailEl = document.getElementById("userEmail");
+                const userAvatarEl = document.getElementById("userAvatar");
+
+                userNameEl.textContent = user.name;
+                userEmailEl.textContent = user.email;
+
+                // Generate initials for avatar
+                const initials = user.name
+                    .split(" ")
+                    .map((name) => name.charAt(0))
+                    .join("")
+                    .toUpperCase()
+                    .substring(0, 2);
+                userAvatarEl.textContent = initials;
+            }
+
+            // Display registrations
+            function displayRegistrations(data) {
+                const loadingSpinner = document.getElementById("loadingSpinner");
+                const eventsContainer = document.getElementById("eventsContainer");
+                const noEventsEl = document.getElementById("noEvents");
+
+                loadingSpinner.style.display = "none";
+
+                if (data.registrations.length === 0) {
+                    noEventsEl.style.display = "block";
+                    return;
+                }
+
+                eventsContainer.style.display = "block";
+
+                // Match registrations with their corresponding event
+                const cardsHTML = data.registrations.map((registration) => {
+                    const matchingEvent = data.events.find((event) => event._id === registration.event_id);
+                    return createEventCard(registration, matchingEvent);
+                });
+
+                eventsContainer.innerHTML = cardsHTML.join("");
+            }
+
+            // Create event card HTML
+            function createEventCard(registration, event) {
+                if (!event) return ""; // skip if event not found
+
+                const eventDay = event.event_days?.[0] || {};
+                const eventDate = new Date(eventDay.date).toLocaleDateString();
+                const eventTime = `${new Date(eventDay.start_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} - ${new Date(eventDay.end_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+
+                const statusClass = `status-${registration.status}`;
+                const statusText = registration.status.charAt(0).toUpperCase() + registration.status.slice(1);
+
+                const qrCodeSection =
+                    registration.status === "paid" && registration.qr_code
+                        ? `
+                        <div class="qr-code-container">
+                            <h6 class="text-dark mb-3">Your Event QR Code</h6>
+                            <img src="${registration.qr_code}" alt="Event QR Code" class="qr-code">
+                            <p class="text-muted small mt-2">Show this QR code at the event entrance</p>
+                        </div>
+                    `
+                        : "";
+
+                return `
+                    <div class="event-card">
+                        <div class="row align-items-start">
+                            <div class="col-md-2 col-3">
+                                <img src="/uploads/${event.poster_uri}" alt="${event.title}" class="event-poster">
+                            </div>
+                            <div class="col-md-7 col-9">
+                                <h3 class="event-title">${event.title}</h3>
+                                <p class="event-description">${event.deskripsi ?? ""}</p>
+                                <div class="event-details">
+                                    <div class="detail-item">
+                                        <i class="bi bi-calendar"></i>
+                                        <span>${eventDate}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="bi bi-clock"></i>
+                                        <span>${eventTime}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span>${eventDay.location ?? ""}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="bi bi-person"></i>
+                                        <span>${eventDay.speaker ?? ""}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="bi bi-currency-dollar"></i>
+                                        <span>$${event.price}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-12 text-md-end mt-3 mt-md-0">
+                                <span class="status-badge ${statusClass}">${statusText}</span>
+                                <p class="text-muted small mt-2">
+                                    Registered: ${new Date(registration.created_at).toLocaleDateString()}
+                                </p>
+                            </div>
+                        </div>
+                        ${qrCodeSection}
+                    </div>
+                    `;
+            }
+
+            async function loadUserProfile() {
+                try {
+                    const response = await fetch(`${baseAPI}/member/viewMember?email=${user.email}`, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
+
+                    const userData = await response.json();
+                    console.log("Load user profile : ", userData);
+                    displayUserProfile(userData.data);
+                } catch (error) {
+                    console.error("Error loading user profile:", error);
+                }
+            }
+
+            async function loadUserRegistrations() {
+                try {
+                    const response = await fetch(`${baseAPI}/member/registrations?email=${user.email}`, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
+
+                    const result = await response.json();
+                    console.log("Load use registrations : ", result);
+                    displayRegistrations(result.data);
+                } catch (error) {
+                    console.error("Error loading registrations:", error);
+                    document.getElementById("loadingSpinner").style.display = "none";
+                    document.getElementById("noEvents").style.display = "block";
+                }
+            }
+        </script>
+    </body>
+</html>

@@ -1,211 +1,580 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Detail Event</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Detail Event</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+        <!-- Favicons -->
+        <link href="assets/img/favicon.png" rel="icon" />
+        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Raleway:wght@300;400;700&display=swap" rel="stylesheet">
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Raleway:wght@300;400;700&display=swap" rel="stylesheet" />
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+        <!-- Vendor CSS Files -->
+        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+        <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+        <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+        <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
 
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
-</head>
+        <!-- Main CSS File -->
+        <link href="assets/css/main.css" rel="stylesheet" />
+    </head>
 
-<style>
-  header.header {
-    background-color: #2c2f4b;
-  }
-  .navmenu a, .navmenu a:visited {
-    color: #A9A9A9 !important;
-  }
-  .navmenu a:hover {
-    color: #f82249 !important;
-  }
-</style>
+    <style>
+        header.header {
+            background-color: #2c2f4b;
+        }
+        .navmenu a,
+        .navmenu a:visited {
+            color: #a9a9a9 !important;
+        }
+        .navmenu a:hover {
+            color: #f82249 !important;
+        }
 
-<body>
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center">
-      <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <img src="assets/img/logo.png" alt="">
-      </a>
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="#hero" class="active">Home</a></li>
-          <li><a href="#speakers">Speakers</a></li>
-          <li><a href="#schedule">Schedule</a></li>
-          <li><a href="#venue">Venue</a></li>
-          <li><a href="#hotels">Hotels</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-            </ul>
-          </li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
-      <a class="cta-btn d-none d-sm-block" id="auth-button" href="/login.html">Get Started</a>
-    </div>
-  </header>
+        /* Enhanced Event Detail Styles */
+        .event-detail {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            position: relative;
+        }
 
-  <section class="event-detail section py-5" style="margin-top: 100px;">
-    <div class="container">
-      <div class="row align-items-start" id="event-detail">
-        <!-- Konten detail event akan dimuat via JS -->
-      </div>
-    </div>
-  </section>
+        .event-detail::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="50" cy="10" r="10" fill="url(%23a)"/></svg>')
+                repeat;
+            opacity: 0.3;
+            pointer-events: none;
+        }
 
-  <!-- MODAL PENDAFTARAN -->
-  <div class="modal fade" id="daftarModal" tabindex="-1" aria-labelledby="daftarModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form id="daftarForm">
-          <div class="modal-header">
-            <h5 class="modal-title" id="daftarModalLabel">Formulir Pendaftaran</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="nama" class="form-label">Nama Lengkap</label>
-              <input type="text" class="form-control" id="nama" required>
+        .event-card {
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-poster {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-poster img {
+            transition: transform 0.3s ease;
+        }
+
+        .event-poster:hover img {
+            transform: scale(1.02);
+        }
+
+        .event-content {
+            padding: 2rem;
+        }
+
+        .event-title {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            line-height: 1.3;
+        }
+
+        .event-description {
+            color: #5a6c7d;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-section h5 {
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .schedule-item,
+        .speaker-item {
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item:hover,
+        .speaker-item:hover {
+            background: #f8f9fa;
+            border-color: #007bff;
+            transform: translateX(3px);
+        }
+
+        .quota-badge {
+            background: #dc3545;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+        }
+
+        .register-btn {
+            background: #dc3545;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .register-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        }
+
+        /* Enhanced Modal Styles */
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 1.5rem 2rem;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .form-check-input:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .modal-footer {
+            background: white;
+            border: none;
+            padding: 1.5rem 2rem;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .price-tag {
+            background: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        }
+
+        /* Animation classes */
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <body>
+        <header id="header" class="header d-flex align-items-center fixed-top">
+            <div class="container-fluid container-xl position-relative d-flex align-items-center">
+                <a href="index.html" class="logo d-flex align-items-center me-auto">
+                    <img src="assets/img/logo.png" alt="" />
+                </a>
+                <nav id="navmenu" class="navmenu">
+                    <ul>
+                        <li><a href="#hero" class="active">Home</a></li>
+                        <li><a href="#speakers">Speakers</a></li>
+                        <li><a href="#schedule">Schedule</a></li>
+                        <li><a href="#venue">Venue</a></li>
+                        <li><a href="#hotels">Hotels</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li class="dropdown">
+                            <a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="#">Dropdown 1</a></li>
+                                <li class="dropdown">
+                                    <a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                                    <ul>
+                                        <li><a href="#">Deep Dropdown 1</a></li>
+                                        <li><a href="#">Deep Dropdown 2</a></li>
+                                        <li><a href="#">Deep Dropdown 3</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Dropdown 2</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                </nav>
+                <a class="cta-btn d-none d-sm-block" id="auth-button" href="/login.html">Get Started</a>
             </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" required>
+        </header>
+
+        <section class="event-detail section py-5" style="margin-top: 100px">
+            <div class="container">
+                <div class="event-card fade-in-up" id="event-detail">
+                    <!-- Konten detail event akan dimuat via JS -->
+                </div>
             </div>
-            <div class="mb-3">
-              <label for="bukti" class="form-label">Upload Bukti Pembayaran</label>
-              <input type="file" class="form-control" id="bukti" accept="image/*,application/pdf" required>
+        </section>
+
+        <!-- MODAL PENDAFTARAN -->
+        <div class="modal fade" id="daftarModal" tabindex="-1" aria-labelledby="daftarModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form id="daftarForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="daftarModalLabel">
+                                <i class="bi bi-calendar-event me-2"></i>
+                                Formulir Pendaftaran Event
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="nama" class="form-label">
+                                            <i class="bi bi-person me-1"></i>
+                                            Nama Lengkap
+                                        </label>
+                                        <input type="text" class="form-control" id="nama" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">
+                                            <i class="bi bi-envelope me-1"></i>
+                                            Email
+                                        </label>
+                                        <input type="email" class="form-control" id="email" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <h5><i class="bi bi-credit-card me-2"></i>Metode Pembayaran</h5>
+                                <div class="info-section">
+                                    <p><strong>Bank:</strong> Bank BCA</p>
+                                    <p><strong>No. Rekening:</strong> 1234567890</p>
+                                    <p><strong>Atas Nama:</strong> PT Event Maju Jaya</p>
+                                    <div class="alert alert-warning mt-2" role="alert">
+                                        <i class="bi bi-exclamation-circle me-2"></i>
+                                        Mohon transfer sesuai dengan nominal harga tiket dan unggah bukti pembayaran di bawah.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="bukti" class="form-label">
+                                    <i class="bi bi-cloud-upload me-1"></i>
+                                    Upload Bukti Pembayaran
+                                </label>
+                                <input type="file" class="form-control" id="bukti" accept="image/*,application/pdf" required />
+                                <div class="form-text">
+                                    <small>Format yang didukung: JPG, PNG, PDF (Maksimal 5MB)</small>
+                                </div>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="konfirmasiCheckbox" required />
+                                <label class="form-check-label" for="konfirmasiCheckbox">
+                                    <strong>Saya yakin ingin mendaftar dan melakukan pembayaran</strong>
+                                </label>
+                            </div>
+                            <div class="alert alert-info" role="alert">
+                                <i class="bi bi-info-circle me-2"></i>
+                                <strong>Informasi:</strong> Setelah mendaftar, tim kami akan memverifikasi pembayaran Anda dalam 1x24 jam.
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Batal
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Konfirmasi Pendaftaran
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-check mb-3">
-              <input type="checkbox" class="form-check-input" id="konfirmasiCheckbox" required>
-              <label class="form-check-label" for="konfirmasiCheckbox">
-                Saya yakin ingin mendaftar dan melakukan pembayaran
-              </label>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-primary">Daftar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+        </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      // Ambil user dari localStorage
-      const user = JSON.parse(localStorage.getItem("user"));
+        <script>
+            const token = localStorage.getItem("token");
+            const baseAPI = "http://localhost:8080/api";
 
-      if (user) {
-        document.getElementById("nama").value = user.name;
-        document.getElementById("email").value = user.email;
-        document.getElementById("nama").readOnly = true;
-        document.getElementById("email").readOnly = true;
-      } else {
-        alert("Harap login terlebih dahulu.");
-        return;
-      }
+            document.addEventListener("DOMContentLoaded", async () => {
+                // Ambil user dari localStorage
+                const user = JSON.parse(localStorage.getItem("user"));
 
-      // Ambil ID event dari URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const eventId = urlParams.get("id");
+                if (user) {
+                    document.getElementById("nama").value = user.name;
+                    document.getElementById("email").value = user.email;
+                    document.getElementById("nama").readOnly = true;
+                    document.getElementById("email").readOnly = true;
+                } else {
+                    alert("Harap login terlebih dahulu.");
+                    return;
+                }
 
-      if (!eventId) {
-        document.getElementById("event-detail").innerHTML = "<p>Event tidak ditemukan.</p>";
-        return;
-      }
+                // Ambil ID event dari URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const eventId = urlParams.get("id");
 
-      try {
-        const response = await fetch(`/api/event/${eventId}`);
-        const { data: event } = await response.json();
+                if (!eventId) {
+                    document.getElementById("event-detail").innerHTML = "<p class='text-center text-muted'>Event tidak ditemukan.</p>";
+                    return;
+                }
 
-        const eventDaysStr = event.event_days.map((day) => {
-          const date = new Date(day.date).toLocaleDateString('id-ID', {
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-          });
-          const start = new Date(day.start_time).toLocaleTimeString('id-ID', {
-            hour: '2-digit', minute: '2-digit'
-          });
-          const end = new Date(day.end_time).toLocaleTimeString('id-ID', {
-            hour: '2-digit', minute: '2-digit'
-          });
-          return `<li>${date} (${start} - ${end}) - <strong>Lokasi:</strong> ${day.location}</li>`;
-        }).join("");
+                try {
+                    const response = await fetch(`/api/event/${eventId}`);
+                    const { data: event } = await response.json();
 
-        const speakers = event.event_days
-          .map(d => d.speaker)
-          .filter((v, i, arr) => v && arr.indexOf(v) === i);
+                    const eventDaysStr = event.event_days
+                        .map((day) => {
+                            const date = new Date(day.date).toLocaleDateString("id-ID", {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                            });
+                            const start = new Date(day.start_time).toLocaleTimeString("id-ID", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                            });
+                            const end = new Date(day.end_time).toLocaleTimeString("id-ID", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                            });
+                            return `
+                              <div class="schedule-item">
+                                <div class="d-flex justify-content-between align-items-start">
+                                  <div>
+                                    <strong>${date}</strong><br>
+                                    <small><i class="bi bi-clock me-1"></i>${start} - ${end}</small>
+                                  </div>
+                                  <div class="text-end">
+                                    <small><i class="bi bi-geo-alt me-1"></i>${day.location}</small>
+                                  </div>
+                                </div>
+                              </div>
+                            `;
+                        })
+                        .join("");
 
-        const pembicaraStr = speakers.length
-          ? `<ul>${speakers.map(p => `<li>${p}</li>`).join("")}</ul>`
-          : "Tidak ada pembicara.";
+                    const speakers = event.event_days.map((d) => d.speaker).filter((v, i, arr) => v && arr.indexOf(v) === i);
 
-        document.getElementById("event-detail").innerHTML = `
-          <div class="col-md-5 mb-4 mb-md-0">
-            <img src="/uploads/${event.poster_uri}" alt="${event.title}" class="img-fluid rounded shadow">
-          </div>
-          <div class="col-md-7">
-            <h2 class="mb-3">${event.title}</h2>
-            <p class="mb-4" style="color: #333;">${event.deskripsi}</p>
-            <h5>Waktu & Lokasi:</h5>
-            <ul>${eventDaysStr}</ul>
-            <h5>Pembicara:</h5>
-            ${pembicaraStr}
-            <h5>Kuota Maksimum:</h5>
-            <p>${event.max_participants} orang</p>
-            <button class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#daftarModal">Daftar Sekarang</button>
-          </div>
-        `;
+                    const pembicaraStr = speakers.length ? speakers.map((p) => `<div class="speaker-item"><i class="bi bi-person-badge me-2"></i>${p}</div>`).join("") : "<p class='text-muted'>Pembicara akan diumumkan segera.</p>";
 
-        document.getElementById("daftarForm").addEventListener("submit", (e) => {
-          e.preventDefault();
-          const nama = document.getElementById("nama").value;
-          const email = document.getElementById("email").value;
+                    const priceFormatted = new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                    }).format(event.price);
 
-          console.log({ nama, email });
+                    document.getElementById("event-detail").innerHTML = `
+                      <div class="row align-items-start">
+                        <div class="col-lg-5 mb-4 mb-lg-0">
+                          <div class="event-poster bounce-in">
+                            <img src="/uploads/${event.poster_uri}" alt="${event.title}" class="img-fluid">
+                          </div>
+                        </div>
+                        <div class="col-lg-7">
+                          <div class="event-content">
+                            ${event.price > 0 ? `<div class="price-tag"><i class="bi bi-tag-fill me-1"></i>${priceFormatted}</div>` : '<div class="price-tag"><i class="bi bi-gift me-1"></i>GRATIS</div>'}
+                            <h1 class="event-title">${event.title}</h1>
+                            <p class="event-description">${event.deskripsi}</p>
 
-          alert("Form berhasil dikirim!\n(Nama: " + nama + ", Email: " + email + ")");
-          const modal = bootstrap.Modal.getInstance(document.getElementById('daftarModal'));
-          modal.hide();
-          e.target.reset();
-        });
+                            <div class="info-section">
+                              <h5><i class="bi bi-calendar-week me-2"></i>Jadwal & Lokasi</h5>
+                              ${eventDaysStr}
+                            </div>
 
-      } catch (error) {
-        console.error("Gagal mengambil detail event:", error);
-        document.getElementById("event-detail").innerHTML = "<p>Gagal memuat detail event.</p>";
-      }
-    });
-  </script>
+                            <div class="info-section">
+                              <h5><i class="bi bi-people-fill me-2"></i>Pembicara</h5>
+                              ${pembicaraStr}
+                            </div>
 
-</body>
+                            <div class="quota-badge">
+                              <i class="bi bi-person-check me-2"></i>
+                              Kuota Maksimum: <strong>${event.max_participants} orang</strong>
+                              ${event.total_registered ? `<br><small>Terdaftar: ${event.total_registered} orang</small>` : ""}
+                            </div>
+
+                            <div class="text-center mt-4">
+                              <button class="register-btn" data-bs-toggle="modal" data-bs-target="#daftarModal">
+                                <i class="bi bi-calendar-plus me-2"></i>
+                                Daftar Sekarang
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    `;
+                } catch (error) {
+                    console.error("Gagal mengambil detail event:", error);
+                    document.getElementById("event-detail").innerHTML = `
+                    <div class="text-center py-5">
+                      <i class="bi bi-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+                      <h3 class="mt-3 text-muted">Gagal memuat detail event</h3>
+                      <p class="text-muted">Silakan coba lagi nanti atau hubungi administrator.</p>
+                    </div>
+                  `;
+                }
+
+                document.getElementById("daftarForm").addEventListener("submit", async (e) => {
+                    e.preventDefault();
+
+                    const form = e.target;
+                    const bukti = document.getElementById("bukti").files[0];
+                    const formData = new FormData();
+                    console.log("User Email : ", user.email);
+
+                    formData.append("email", user.email);
+                    formData.append("proof_of_payment", bukti);
+                    formData.append("event_id", eventId);
+
+                    try {
+                        const response = await fetch(`${baseAPI}/member/registerEvent?email=${user.email}`, {
+                            method: "POST",
+                            body: formData,
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        });
+
+                        if (!response.ok) {
+                            throw new Error("Failed to send data to the server");
+                            console.log("Register event response : ", response.data);
+                        }
+
+                        const result = await response.json();
+                        console.log("Success:", result);
+
+                        alert("Form berhasil dikirim!\n(Nama: " + nama + ", Email: " + email + ")");
+                        const modal = bootstrap.Modal.getInstance(document.getElementById("daftarModal"));
+                        modal.hide();
+                        form.reset();
+                    } catch (err) {
+                        console.error("Something went wrong", err);
+                        alert("Terjadi kesalahan saat mengirim data. Silakan coba lagi.");
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>
