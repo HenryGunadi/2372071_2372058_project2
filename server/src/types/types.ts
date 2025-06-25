@@ -43,6 +43,11 @@ export type RegistrationPayload = {
     updated_at: Date;
 };
 
+export interface UpdateRegistration {
+    registration_id: string;
+    status: "paid" | "rejected";
+}
+
 export interface IAdminService {
     findStaff(email: string): Promise<Result<IUser>>;
     getAllStaff(): Promise<Result<IUser>>;
@@ -58,10 +63,17 @@ export interface IMemberService {
 }
 
 export interface IEventService {
-    findEvent(id: string): Promise<Result<IEvent>>;
+    findEvent(id: string): Promise<IEvent>;
     getAllEvent(): Promise<Result<IEvent>>;
     updateEvent(id: string, value: Partial<IEvent>): Promise<Result>;
     deleteEvent(id: string): Promise<Result>;
     createEvent(event: Omit<IEvent, keyof Document>): Promise<Result>;
     markExpiredEvents(): Promise<Result>;
+}
+
+export interface IRegistrationService {
+    findRegistration(id: string): Promise<Result<IRegistration>>;
+    getAllRegistrations(): Promise<IRegistration[]>;
+    updateRegistration(id: string, value: Partial<IRegistration>): Promise<Result>;
+    deleteRegistration(id: string): Promise<Result>;
 }

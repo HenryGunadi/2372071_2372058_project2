@@ -7,6 +7,7 @@ export interface IRegistration extends Document {
     proof_of_payment: string;
     absence: boolean;
     qr_code: string | null;
+    qr_secret: string | null;
     email: string;
     event_id: string;
     created_at: Date;
@@ -18,6 +19,7 @@ const RegistrationSchema: Schema<IRegistration> = new Schema({
     proof_of_payment: { type: String, required: false },
     absence: { type: Boolean, required: true },
     qr_code: { type: String, required: false },
+    qr_secret: { type: String, required: false },
     email: { type: String, required: true },
     event_id: { type: String, required: true },
     created_at: { type: Date, required: true },

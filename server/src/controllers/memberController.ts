@@ -51,7 +51,7 @@ export class MemberController {
                 created_at: new Date(),
                 updated_at: new Date(),
                 email: payload.email,
-                absence: false,
+                absence: true,
                 qr_code: null,
                 event_id: payload.event_id,
             };

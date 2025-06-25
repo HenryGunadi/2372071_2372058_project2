@@ -1050,7 +1050,7 @@
                 console.log("Create event payload (FormData):", [...formData.entries()]);
 
                 try {
-                    const res = await fetch(`${baseAPI}/event/createEvent`, {
+                    const res = await fetch(`${baseAPI}/staff/createEvent`, {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${token}`,

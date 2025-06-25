@@ -442,7 +442,7 @@
                 }
 
                 try {
-                    const response = await fetch(`/api/event/${eventId}`);
+                    const response = await fetch(`/api/staff/${eventId}`);
                     const { data: event } = await response.json();
 
                     const eventDaysStr = event.event_days

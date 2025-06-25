@@ -26,6 +26,265 @@
         display: none;
       }
     </style> -->
+        <style>
+            .badge-outline-success {
+                background-color: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+            }
+            .badge-outline-warning {
+                background-color: #fff3cd;
+                color: #856404;
+                border: 1px solid #ffeaa7;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+            }
+            .badge-outline-danger {
+                background-color: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+            }
+            .badge-outline-secondary {
+                background-color: #e2e3e5;
+                color: #6c757d;
+                border: 1px solid #d6d8db;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+            }
+
+            .table tbody tr:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                cursor: pointer;
+            }
+
+            /* Custom Registration Details Overlay */
+            .reg-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                z-index: 9999;
+            }
+
+            .reg-details-container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #2a2d3a;
+                color: #fff;
+                width: 90%;
+                max-width: 900px;
+                max-height: 90vh;
+                border-radius: 8px;
+                overflow-y: auto;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            }
+
+            .reg-header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 20px;
+                border-radius: 8px 8px 0 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .reg-header h3 {
+                margin: 0;
+                font-size: 18px;
+            }
+
+            .reg-close {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
+                padding: 0;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .reg-close:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+                border-radius: 4px;
+            }
+
+            .reg-content {
+                padding: 20px;
+            }
+
+            .reg-section {
+                margin-bottom: 30px;
+            }
+
+            .reg-section-title {
+                font-size: 16px;
+                margin-bottom: 15px;
+                color: #667eea;
+                border-bottom: 1px solid #444;
+                padding-bottom: 8px;
+            }
+
+            .reg-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+
+            .reg-col {
+                flex: 1;
+                min-width: 300px;
+            }
+
+            .reg-info-item {
+                margin-bottom: 12px;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+
+            .reg-label {
+                font-weight: 600;
+                color: #bbb;
+                margin-right: 10px;
+                min-width: 120px;
+            }
+
+            .reg-value {
+                color: #fff;
+                flex: 1;
+                text-align: right;
+            }
+
+            .reg-image {
+                max-width: 150px;
+                height: auto;
+                border-radius: 6px;
+                border: 1px solid #444;
+            }
+
+            .reg-proof-image {
+                max-width: 200px;
+                height: auto;
+                border-radius: 6px;
+                border: 1px solid #444;
+            }
+
+            .reg-status-section {
+                background: #333;
+                padding: 20px;
+                border-radius: 6px;
+                margin-top: 20px;
+            }
+
+            .reg-status-current {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+                gap: 10px;
+            }
+
+            .reg-status-buttons {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .reg-btn {
+                padding: 8px 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 13px;
+                font-weight: 500;
+                transition: all 0.2s;
+            }
+
+            .reg-btn-success {
+                background-color: #28a745;
+                color: white;
+            }
+
+            .reg-btn-success:hover {
+                background-color: #218838;
+            }
+
+            .reg-btn-danger {
+                background-color: #dc3545;
+                color: white;
+            }
+
+            .reg-btn-danger:hover {
+                background-color: #c82333;
+            }
+
+            .reg-btn-warning {
+                background-color: #ffc107;
+                color: #212529;
+            }
+
+            .reg-btn-warning:hover {
+                background-color: #e0a800;
+            }
+
+            .reg-btn-link {
+                background-color: #007bff;
+                color: white;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+            .reg-btn-link:hover {
+                background-color: #0056b3;
+                color: white;
+                text-decoration: none;
+            }
+
+            @media (max-width: 768px) {
+                .reg-details-container {
+                    width: 95%;
+                    margin: 20px;
+                }
+
+                .reg-row {
+                    flex-direction: column;
+                    gap: 20px;
+                }
+
+                .reg-col {
+                    min-width: auto;
+                }
+
+                .reg-info-item {
+                    flex-direction: column;
+                    gap: 4px;
+                }
+
+                .reg-value {
+                    text-align: left;
+                }
+
+                .reg-status-buttons {
+                    flex-direction: column;
+                }
+            }
+        </style>
     </head>
     <body>
         <div class="container-scroller">
@@ -39,6 +298,98 @@
                         </div>
                         <div class="modal-body" id="eventModalBody">
                             <!-- Dynamic event detail content goes here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registration Details Overlay -->
+            <div class="reg-overlay" id="registrationOverlay">
+                <div class="reg-details-container">
+                    <div class="reg-header">
+                        <h3>📋 Registration Details</h3>
+                        <button class="reg-close" onclick="closeRegistrationDetails()">&times;</button>
+                    </div>
+                    <div class="reg-content">
+                        <!-- Registration Information Section -->
+                        <div class="reg-section">
+                            <div class="reg-row">
+                                <div class="reg-col">
+                                    <h4 class="reg-section-title">👤 Registration Information</h4>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Registration ID:</span>
+                                        <span class="reg-value" id="detail-reg-id">—</span>
+                                    </div>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Client Email:</span>
+                                        <span class="reg-value" id="detail-email">—</span>
+                                    </div>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Registration Date:</span>
+                                        <span class="reg-value" id="detail-reg-date">—</span>
+                                    </div>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Last Updated:</span>
+                                        <span class="reg-value" id="detail-updated-date">—</span>
+                                    </div>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Attendance:</span>
+                                        <span class="reg-value" id="detail-absence">—</span>
+                                    </div>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">QR Code:</span>
+                                        <span class="reg-value" id="detail-qr-code">—</span>
+                                    </div>
+                                </div>
+
+                                <div class="reg-col">
+                                    <h4 class="reg-section-title">📅 Event Information</h4>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Event Title:</span>
+                                        <span class="reg-value" id="detail-event-title">—</span>
+                                    </div>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Event Price:</span>
+                                        <span class="reg-value" id="detail-event-price">—</span>
+                                    </div>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Max Participants:</span>
+                                        <span class="reg-value" id="detail-max-participants">—</span>
+                                    </div>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Total Registered:</span>
+                                        <span class="reg-value" id="detail-total-registered">—</span>
+                                    </div>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Event Status:</span>
+                                        <span class="reg-value" id="detail-event-status">—</span>
+                                    </div>
+                                    <div class="reg-info-item">
+                                        <span class="reg-label">Event Poster:</span>
+                                        <div class="reg-value" id="detail-event-poster">—</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Proof of Payment Section -->
+                        <div class="reg-section">
+                            <h4 class="reg-section-title">💳 Proof of Payment</h4>
+                            <div id="detail-proof-container" style="text-align: center">—</div>
+                        </div>
+
+                        <!-- Status Update Section -->
+                        <div class="reg-status-section">
+                            <h4 class="reg-section-title">💰 Payment Status Management</h4>
+                            <div class="reg-status-current">
+                                <span>Current Status:</span>
+                                <span id="detail-current-status">—</span>
+                            </div>
+                            <div class="reg-status-buttons">
+                                <button class="reg-btn reg-btn-success" onclick="updateRegistrationStatus('paid')">✅ Mark as Paid</button>
+                                <button class="reg-btn reg-btn-danger" onclick="updateRegistrationStatus('rejected')">❌ Reject Payment</button>
+                                <button class="reg-btn reg-btn-warning" onclick="updateRegistrationStatus('pending')">⏳ Set Pending</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -621,129 +972,22 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>
+                                                        <!-- <th>
                                                             <div class="form-check form-check-muted m-0">
                                                                 <label class="form-check-label">
                                                                     <input type="checkbox" class="form-check-input" />
                                                                 </label>
                                                             </div>
-                                                        </th>
-                                                        <th>Client Name</th>
+                                                        </th> -->
+                                                        <th>Client Email</th>
                                                         <th>Order No</th>
-                                                        <th>Product Cost</th>
-                                                        <th>Project</th>
-                                                        <th>Payment Mode</th>
-                                                        <th>Start Date</th>
+                                                        <th>Event</th>
+                                                        <th>Proof Of Payment</th>
+                                                        <th>Date</th>
                                                         <th>Payment Status</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="form-check form-check-muted m-0">
-                                                                <label class="form-check-label">
-                                                                    <input type="checkbox" class="form-check-input" />
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <img src="assetsStaff/images/faces/face1.jpg" alt="image" />
-                                                            <span class="pl-2">Henry Klein</span>
-                                                        </td>
-                                                        <td>02312</td>
-                                                        <td>$14,500</td>
-                                                        <td>Dashboard</td>
-                                                        <td>Credit card</td>
-                                                        <td>04 Dec 2019</td>
-                                                        <td>
-                                                            <div class="badge badge-outline-success">Approved</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="form-check form-check-muted m-0">
-                                                                <label class="form-check-label">
-                                                                    <input type="checkbox" class="form-check-input" />
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <img src="assetsStaff/images/faces/face2.jpg" alt="image" />
-                                                            <span class="pl-2">Estella Bryan</span>
-                                                        </td>
-                                                        <td>02312</td>
-                                                        <td>$14,500</td>
-                                                        <td>Website</td>
-                                                        <td>Cash on delivered</td>
-                                                        <td>04 Dec 2019</td>
-                                                        <td>
-                                                            <div class="badge badge-outline-warning">Pending</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="form-check form-check-muted m-0">
-                                                                <label class="form-check-label">
-                                                                    <input type="checkbox" class="form-check-input" />
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <img src="assetsStaff/images/faces/face5.jpg" alt="image" />
-                                                            <span class="pl-2">Lucy Abbott</span>
-                                                        </td>
-                                                        <td>02312</td>
-                                                        <td>$14,500</td>
-                                                        <td>App design</td>
-                                                        <td>Credit card</td>
-                                                        <td>04 Dec 2019</td>
-                                                        <td>
-                                                            <div class="badge badge-outline-danger">Rejected</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="form-check form-check-muted m-0">
-                                                                <label class="form-check-label">
-                                                                    <input type="checkbox" class="form-check-input" />
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <img src="assetsStaff/images/faces/face3.jpg" alt="image" />
-                                                            <span class="pl-2">Peter Gill</span>
-                                                        </td>
-                                                        <td>02312</td>
-                                                        <td>$14,500</td>
-                                                        <td>Development</td>
-                                                        <td>Online Payment</td>
-                                                        <td>04 Dec 2019</td>
-                                                        <td>
-                                                            <div class="badge badge-outline-success">Approved</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="form-check form-check-muted m-0">
-                                                                <label class="form-check-label">
-                                                                    <input type="checkbox" class="form-check-input" />
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <img src="assetsStaff/images/faces/face4.jpg" alt="image" />
-                                                            <span class="pl-2">Sallie Reyes</span>
-                                                        </td>
-                                                        <td>02312</td>
-                                                        <td>$14,500</td>
-                                                        <td>Website</td>
-                                                        <td>Credit card</td>
-                                                        <td>04 Dec 2019</td>
-                                                        <td>
-                                                            <div class="badge badge-outline-success">Approved</div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
+                                                <tbody></tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -1014,22 +1258,25 @@
         <script src="assetsStaff/js/dashboard.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-            document.addEventListener("click", function (e) {
-                console.log("Logout clicked")
-                const logoutBtn = e.target.closest("#logout-btn");
+            logoutBtn = document.getElementById("logout-btn");
+
+            logoutBtn.addEventListener("click", function (e) {
+                console.log("Logout clicked");
                 if (logoutBtn) {
                     localStorage.removeItem("token");
                     localStorage.removeItem("user");
                     window.location.href = "login.html";
                 }
             });
+
             const baseAPI = "http://localhost:8080/api";
             const token = localStorage.getItem("token");
+            const user = JSON.parse(localStorage.getItem("user") || "{}");
 
             async function fetchEvents() {
                 let events;
                 try {
-                    const res = await fetch(`${baseAPI}/event/viewEvents`, {
+                    const res = await fetch(`${baseAPI}/staff/viewEvents`, {
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -1071,9 +1318,9 @@
                                 <p class="text-muted">${new Date(event.created_at).toLocaleDateString()}</p>
                                 <p class="text-muted mb-0">Max participants: ${event.max_participants}</p>
                             </div>
-                   
+
                         </div>
-     
+
                     `;
 
                     item.addEventListener("click", () => {
@@ -1127,13 +1374,201 @@
                 modal.show();
             }
 
-            // Fetch and render events on page load
-            document.addEventListener("DOMContentLoaded", fetchEvents);
+            let currentRegistration = null;
 
-            document.addEventListener("DOMContentLoaded", async (e) => {
+            function displayRegistrations(registrations) {
+                const tbody = document.querySelector(".table tbody");
+                if (!tbody) return;
+
+                tbody.innerHTML = "";
+
+                const badgeClass = (status) =>
+                    ({
+                        paid: "badge-outline-success",
+                        pending: "badge-outline-warning",
+                        rejected: "badge-outline-danger",
+                    }[status] ?? "badge-outline-secondary");
+
+                const nice = (str = "") => str.charAt(0).toUpperCase() + str.slice(1);
+
+                registrations.forEach((reg, idx) => {
+                    const row = document.createElement("tr");
+                    row.style.cursor = "pointer";
+                    row.style.borderBottom = "1px solid #444";
+                    row.onclick = () => showRegistrationDetails(reg);
+
+                    const proofCell = reg.proof_of_payment
+                        ? `<a href="/uploads/${reg.proof_of_payment}" target="_blank" onclick="event.stopPropagation()" style="color: #667eea; text-decoration: none;">View</a>`
+                        : "<span style='color: #666;'>—</span>";
+
+                    row.innerHTML = `
+                    <td style="padding: 12px;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 10px;">
+                                ${reg.email.charAt(0).toUpperCase()}
+                            </div>
+                            <span>${reg.email}</span>
+                        </div>
+                    </td>
+                    <td style="padding: 12px;">${reg._id?.slice(0, 6) || "—"}</td>
+                    <td style="padding: 12px;">${reg.event?.title ?? "—"}</td>
+                    <td style="padding: 12px;">${proofCell}</td>
+                    <td style="padding: 12px;">${new Date(reg.created_at).toLocaleDateString()}</td>
+                    <td style="padding: 12px;">
+                        <span class="badge ${badgeClass(reg.status)}">
+                            ${nice(reg.status)}
+                        </span>
+                    </td>
+                `;
+                    tbody.appendChild(row);
+                });
+            }
+
+            function showRegistrationDetails(registration) {
+                currentRegistration = registration;
+
+                // Populate details
+                document.getElementById("detail-reg-id").textContent = registration._id || "—";
+                document.getElementById("detail-email").textContent = registration.email || "—";
+                document.getElementById("detail-reg-date").textContent = new Date(registration.created_at).toLocaleString();
+                document.getElementById("detail-updated-date").textContent = new Date(registration.updated_at).toLocaleString();
+                document.getElementById("detail-absence").textContent = registration.absence ? "❌ Absent" : "✅ Present";
+                document.getElementById("detail-qr-code").textContent = registration.qr_code || "Not generated";
+
+                // Event information
+                if (registration.event) {
+                    document.getElementById("detail-event-title").textContent = registration.event.title || "—";
+                    document.getElementById("detail-event-price").textContent = registration.event.price ? `$${registration.event.price}` : "—";
+                    document.getElementById("detail-max-participants").textContent = registration.event.max_participants || "—";
+                    document.getElementById("detail-total-registered").textContent = registration.event.total_registered || "—";
+                    document.getElementById("detail-event-status").textContent = registration.event.status ? "✅ Active" : "❌ Inactive";
+
+                    // Event poster
+                    const posterContainer = document.getElementById("detail-event-poster");
+                    if (registration.event.poster_uri) {
+                        posterContainer.innerHTML = `<img src="/uploads/${registration.event.poster_uri}" alt="Event Poster" class="reg-image" />`;
+                    } else {
+                        posterContainer.textContent = "No poster available";
+                    }
+                }
+
+                // Proof of payment
+                const proofContainer = document.getElementById("detail-proof-container");
+                if (registration.proof_of_payment) {
+                    proofContainer.innerHTML = `
+                    <div>
+                        <img src="/uploads/${registration.proof_of_payment}" alt="Proof of Payment" class="reg-proof-image" style="margin-bottom: 10px;" />
+                        <br>
+                        <a href="/uploads/${registration.proof_of_payment}" target="_blank" class="reg-btn reg-btn-link">
+                            🔗 View Full Size
+                        </a>
+                    </div>
+                `;
+                } else {
+                    proofContainer.innerHTML = "<span style='color: #666;'>No proof of payment uploaded</span>";
+                }
+
+                // Current status
+                const statusSpan = document.getElementById("detail-current-status");
+                const badgeClass =
+                    {
+                        paid: "badge-outline-success",
+                        pending: "badge-outline-warning",
+                        rejected: "badge-outline-danger",
+                    }[registration.status] || "badge-outline-secondary";
+
+                statusSpan.className = `badge ${badgeClass}`;
+                statusSpan.textContent = registration.status.charAt(0).toUpperCase() + registration.status.slice(1);
+
+                // Show overlay
+                document.getElementById("registrationOverlay").style.display = "block";
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeRegistrationDetails() {
+                document.getElementById("registrationOverlay").style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+
+            async function updateRegistrationStatus(newStatus) {
+                if (!currentRegistration) return;
+
+                if (confirm(`Are you sure you want to update the status to "${newStatus}"?`)) {
+                    // Update the registration status
+                    currentRegistration.status = newStatus;
+                    currentRegistration.updated_at = new Date().toISOString();
+
+                    // Update the status in the details view
+                    const statusSpan = document.getElementById("detail-current-status");
+                    const badgeClass =
+                        {
+                            paid: "badge-outline-success",
+                            pending: "badge-outline-warning",
+                            rejected: "badge-outline-danger",
+                        }[newStatus] || "badge-outline-secondary";
+
+                    statusSpan.className = `badge ${badgeClass}`;
+                    statusSpan.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+
+                    // Update last updated time
+                    document.getElementById("detail-updated-date").textContent = new Date().toLocaleString();
+
+                    // Refresh the table
+
+                    // Here you would make your API call
+                    try {
+                        const payload = {
+                            registration_id: currentRegistration._id,
+                            value: { status: newStatus },
+                            updated_at: new Date().toISOString(),
+                        };
+
+                        console.log("Update payload : ", payload);
+
+                        const res = await fetch(`${baseAPI}/staff/updateRegistration`, {
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify(payload),
+                        });
+
+                        if (!res.ok) {
+                            console.error("Update registration error");
+                            // return;
+                        }
+
+                        const data = await res.json();
+                        console.log("Update registration : ", data);
+                    } catch (err) {
+                        console.error("Error updating registration : ", err);
+                    }
+
+                    alert(`✅ Status successfully updated to "${newStatus}"`);
+                    // displayRegistrations();
+
+                    console.log(`Status updated to: ${newStatus} for registration ID: ${currentRegistration._id}`);
+                }
+            }
+
+            // Close overlay when clicking outside
+            document.getElementById("registrationOverlay").addEventListener("click", function (e) {
+                if (e.target === this) {
+                    closeRegistrationDetails();
+                }
+            });
+
+            // Close overlay with Escape key
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") {
+                    closeRegistrationDetails();
+                }
+            });
+
+            async function checkStaff(e) {
                 e.preventDefault();
                 const token = localStorage.getItem("token");
-
                 try {
                     const res = await fetch("http://localhost:8080/api/admin/checkStaff", {
                         method: "GET",
@@ -1143,16 +1578,64 @@
                     });
 
                     if (!res.ok) {
-                        console.log("Gk boleh masuk")
+                        console.log("Gk boleh masuk");
                         window.location.href = "login.html";
                     }
 
-                    const data = await res.json();
+                    console.log("Authorized");
+                    // const data = await res.json();
                     // document.getElementByClass("main").style.display = "block";
                 } catch (err) {
                     console.error("Error during initial GET request:", err);
                 }
-            });
+            }
+
+            async function viewRegistrations() {
+                try {
+                    const res = await fetch(`${baseAPI}/staff/viewFinance`, {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    if (!res.ok) {
+                        console.log("View finance error");
+                    }
+
+                    const result = await res.json();
+                    console.log("View registrations : ", result.data);
+                    displayRegistrations(result.data);
+                } catch (err) {
+                    console.error("Error viewing registrations : ", err);
+                }
+            }
+            // Fetch and render events on page load
+
+            document.addEventListener("DOMContentLoaded", checkStaff);
+
+            if (user.role === "committee") {
+                document.addEventListener("DOMContentLoaded", fetchEvents);
+            } else if (user.role === "finance") {
+                document.addEventListener("DOMContentLoaded", viewRegistrations);
+            }
+
+            // function onReady(callback) {
+            //     if (document.readyState !== "loading") {
+            //         callback();
+            //     } else {
+            //         document.addEventListener("DOMContentLoaded", callback);
+            //     }
+            // }
+
+            // onReady(() => {
+            //     if (user.role === "committee") {
+            //         fetchEvents();
+            //     } else if (user.role === "finance") {
+            //         viewRegistrations();
+            //         console.log("Already view");
+            //     }
+            // });
         </script>
         <!-- End custom js for this page -->
     </body>

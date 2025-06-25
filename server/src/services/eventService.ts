@@ -4,7 +4,7 @@ import Event, { IEvent } from "../models/event";
 import { IEventService, Result } from "../types/types";
 
 export class EventService implements IEventService {
-    public async findEvent(id: string): Promise<Result<IEvent>> {
+    public async findEvent(id: string): Promise<IEvent> {
         try {
             const event = await Event.findById(id);
 
@@ -14,7 +14,7 @@ export class EventService implements IEventService {
 
             return event;
         } catch (err) {
-            console.error("Error finding event : ", err);
+            console.error("Error finding eventsssss : ", err);
             throw new ThrowError("Failed to find event", 500, { error: err });
         }
     }

@@ -1,5 +1,3 @@
 // import { UserServiceInterface } from "../types/types";
 
-// class UserService implements UserServiceInterface{
-    
-// }
+// class UserService implements UserServiceInterface {}

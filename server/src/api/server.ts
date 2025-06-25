@@ -3,11 +3,11 @@ import express, { Express, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import authRouter from "../routes/auth";
 import path from "path";
-import { eventRouter } from "../routes/eventRoute";
 import { dashboardRouter } from "../routes/dashboardRoute";
 import adminRouter from "../routes/adminRoute";
 import { authMiddleware, roleMiddleware } from "../middleware/authMiddleware";
 import memberRouter from "../routes/memberRoute";
+import { staffRouter } from "../routes/staffRoute";
 
 const publicPath = path.join(__dirname, "..", "..", "..", "client", "public");
 const indexPath = path.join(publicPath, "dashboard.html");
@@ -36,10 +36,9 @@ export class APIServer {
 
         // routes
         this.apiServer.use("/api/auth", authRouter());
-        this.apiServer.use("/api/event", eventRouter());
+        this.apiServer.use("/api/staff", staffRouter());
         this.apiServer.use("/api/dashboard", dashboardRouter());
         this.apiServer.use("/api/admin", adminRouter());
-        this.apiServer.use("/api/event", eventRouter());
         this.apiServer.use("/api/member", memberRouter());
 
         // 3. Static files middleware

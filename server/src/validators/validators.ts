@@ -89,3 +89,17 @@ export const registerEventSchema = z.object({
     event_id: z.string().min(1),
     email: z.string().email("Invalid email address"),
 });
+
+export const updateRegistrationSchema = z.object({
+    registration_id: z.string().min(1, "Registration ID is required"),
+
+    value: z.object({
+        status: z.enum(["pending", "paid", "rejected"]).optional(),
+        proof_of_payment: z.string().optional(),
+        absence: z.boolean().optional(),
+        qr_code: z.string().nullable().optional(),
+        email: z.string().email("Invalid email address").optional(),
+        event_id: z.string().min(1).optional(),
+        updated_at: z.preprocess((arg) => (typeof arg === "string" || arg instanceof Date ? new Date(arg) : undefined), z.date().optional()),
+    }),
+});
