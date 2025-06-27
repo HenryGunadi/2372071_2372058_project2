@@ -28,6 +28,38 @@
 
         <!-- Main CSS File -->
         <link href="assets/css/main.css" rel="stylesheet" />
+        <style>
+        .btn-gradient-red {
+            background: linear-gradient(45deg, #dc2626, #991b1b);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient-red:hover {
+            background: linear-gradient(45deg, #b91c1c, #7f1d1d);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+            color: #fff;
+        }
+
+        .dropdown-menu {
+            background-color: #1a1a1a; /* dark background for dropdown */
+            border: 1px solid #2d2d2d;
+        }
+
+        .dropdown-item {
+            color: #f8f9fa;
+        }
+
+        .dropdown-item:hover {
+            background-color: #dc2626;
+            color: #fff;
+        }
+        </style>
 
         <!-- =======================================================
   * Template Name: TheEvent
@@ -57,30 +89,10 @@
                         <li><a href="#venue">Venue</a></li>
                         <li><a href="#hotels">Hotels</a></li>
                         <li><a href="#gallery">Gallery</a></li>
-                        <li class="dropdown">
-                            <a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                            <ul>
-                                <li><a href="#">Dropdown 1</a></li>
-                                <li class="dropdown">
-                                    <a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                                    <ul>
-                                        <li><a href="#">Deep Dropdown 1</a></li>
-                                        <li><a href="#">Deep Dropdown 2</a></li>
-                                        <li><a href="#">Deep Dropdown 3</a></li>
-                                        <li><a href="#">Deep Dropdown 4</a></li>
-                                        <li><a href="#">Deep Dropdown 5</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Dropdown 2</a></li>
-                                <li><a href="#">Dropdown 3</a></li>
-                                <li><a href="#">Dropdown 4</a></li>
-                            </ul>
-                        </li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
-
                 <a class="cta-btn d-none d-sm-block" id="auth-button" href="/login.html">Get Started</a>
             </div>
         </header>
@@ -91,8 +103,8 @@
                 <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in" class="" />
 
                 <div class="container d-flex flex-column align-items-center text-center mt-auto">
-                    <h2 data-aos="fade-up" data-aos-delay="100" class="">THE ANNUAL<br /><span>MARKETING</span> CONFERENCE</h2>
-                    <p data-aos="fade-up" data-aos-delay="200">10-12 December, Downtown Conference Center, New York</p>
+                    <h2 data-aos="fade-up" data-aos-delay="100" class="">THE ANNUAL<br /><span>CAMPUS</span> INNOVATION <span>FESTIVAL</span></h2>
+                    <p data-aos="fade-up" data-aos-delay="200">3 Days of Learning, Collaboration, and Inspiration at Maranatha Christian University</p>
                     <div data-aos="fade-up" data-aos-delay="300" class="">
                         <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn mt-3"></a>
                     </div>
@@ -104,18 +116,14 @@
                             <div class="col-lg-6">
                                 <h2>About The Event</h2>
                                 <p>
-                                    Sed nam ut dolor qui repellendus iusto odit. Possimus inventore eveniet accusamus error amet eius aut accusantium et. Non odit consequatur repudiandae sequi ea odio molestiae. Enim possimus sunt inventore
-                                    in est ut optio sequi unde.
+                                    Welcome to the Campus Innovation Festival – a celebration of creativity, technology, and student excellence.
+                                    This event brings together students, lecturers, professionals, and industry leaders for inspiring keynotes,
+                                    hands-on workshops, startup showcases, and networking sessions.
                                 </p>
                             </div>
-                            <div class="col-lg-3">
-                                <h3>Where</h3>
-                                <p>Downtown Conference Center, New York</p>
-                            </div>
-                            <div class="col-lg-3">
-                                <h3>When</h3>
-                                <p>Monday to Wednesday<br />10-12 December</p>
-                            </div>
+                            <!-- <div class="col-lg-6">
+                                <p>Whether you're an aspiring entrepreneur, a tech enthusiast, or simply curious, this is your chance to explore the future, connect with changemakers, and ignite your passion.</p>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -566,8 +574,8 @@
             <!-- Hotels Section -->
             <section id="events" class="events section">
                 <div class="container section-title" data-aos="fade-up">
-                    <h2>Upcoming Events</h2>
-                    <p>Daftar event yang tersedia</p>
+                    <h2>UPCOMING EVENTS</h2>
+                    <p>List of Available Events</p>
                 </div>
 
                 <div class="container">
@@ -1107,9 +1115,10 @@
                         console.log("Udah login");
                         const authBtn = document.getElementById("auth-button");
                         authBtn.outerHTML = `
-                <div id="auth-dropdown" class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                    Profile
+                <div id="auth-dropdown" class="dropdown ms-3">
+                    <button class="btn btn-gradient-red dropdown-toggle" type="button" id="profileMenu"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle me-2"></i> Profile
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="profileMenu">
                     <li><a class="dropdown-item" href="/profile.html">View Profile</a></li>
@@ -1117,7 +1126,6 @@
                     </ul>
                 </div>
                 `;
-
                         document.addEventListener("click", function (e) {
                             if (e.target && e.target.id === "logout-button") {
                                 localStorage.removeItem("token");
@@ -1189,26 +1197,28 @@
                         });
 
                         card.innerHTML = `
-            <div class="card h-100 shadow-sm border-0">
-              <img src="/uploads/${event.poster_uri}" class="card-img-top" alt="${event.title}">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a href="detailEvents.html?id=${event._id}" class="text-decoration-none text-danger">
+            <div class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden" style="transition: transform 0.3s ease;">
+                <img src="/uploads/${event.poster_uri}" class="card-img-top img-fluid" alt="${event.title}" style="height: 200px; object-fit: cover;">
+                <div class="card-body p-4 text-black">
+                <h5 class="card-title mb-2">
+                    <a href="detailEvents.html?id=${event._id}" class="text-decoration-none fw-bold text-danger-emphasis" style="font-size: 1.2rem;">
                     ${event.title}
-                  </a>
+                    </a>
                 </h5>
-                <p class="card-text text-secondary" style="font-size: 0.95rem;">
-                  ${truncatedDeskripsi}
+                <p class="card-text text-light-emphasis small" style="line-height: 1.5;">
+                    ${truncatedDeskripsi}
                 </p>
-
-              </div>
-              <div class="card-footer d-flex justify-content-between bg-white border-0">
-                <small class="text-muted">Sisa Kuota: ${sisaKuota}</small>
-                <small class="text-muted">${waktuTersisa}</small>
-              </div>
+                </div>
+                <div class="card-footer bg-light d-flex justify-content-between align-items-center px-4 py-2 border-top">
+                <span class="badge bg-danger-subtle text-danger fw-semibold">
+                    Sisa Kuota: ${sisaKuota}
+                </span>
+                <span class="badge bg-secondary-subtle text-dark small">
+                    ${waktuTersisa}
+                </span>
+                </div>
             </div>
-          `;
-
+            `;
                         container.appendChild(card);
                     });
                 } catch (error) {

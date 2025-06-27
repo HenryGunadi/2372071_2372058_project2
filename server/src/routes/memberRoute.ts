@@ -17,6 +17,7 @@ export const memberRouter = () => {
     router.get("/viewMember", authMiddleware, roleMiddleware(["member"]), memberController.viewMember);
     router.post("/registerEvent", authMiddleware, roleMiddleware(["member"]), upload.single("proof_of_payment"), memberController.registerEvent);
     router.get("/registrations", authMiddleware, memberController.viewRegistrations);
+    router.get("/viewCertificates", authMiddleware, roleMiddleware(["member"]), memberController.viewcertificates)
 
     return router;
 };

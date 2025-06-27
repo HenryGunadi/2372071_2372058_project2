@@ -1,15 +1,17 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-interface ICertificate extends Document {
+export interface ICertificate extends Document {
     file_uri: string;
-    user_id: string;
+    email: string;
+    registration_id: string;
     created_at: Date;
     updated_at: Date;
 }
 
 const CertificateSchema: Schema<ICertificate> = new Schema({
     file_uri: { type: String, required: true },
-    user_id: { type: String, required: true },
+    email: { type: String, required: true },
+    registration_id: {type: String, required: true},
     created_at: { type: Date, required: true },
     updated_at: { type: Date, required: true },
 });

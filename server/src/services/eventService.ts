@@ -53,6 +53,38 @@ export class EventService implements IEventService {
         }
     }
 
+    public async incrementRegistrationIfAllowed(eventId: string): Promise<void> {
+        try {
+            console.log("event id: ", eventId)
+            const result = await Event.updateOne(
+                {
+                    _id: eventId,
+                    $expr: { $lt: ["$total_registered", "$max_participants"] }
+                },
+                { $inc: { total_registered: 1 } }
+            );
+
+            if (!result.acknowledged) {
+                throw new ThrowError("Update operation not acknowledged", 500);
+            }
+
+            if (result.matchedCount === 0) {
+                throw new ThrowError("Registration full or event not found", 400, {
+                    error: "Cannot register. Event is full or does not exist."
+                });
+            }
+
+            if (result.modifiedCount === 0) {
+                throw new ThrowError("Could not increment registration", 500);
+            }
+            console.log("Successfully increment")
+        } catch (err) {
+            console.error("Error incrementing registration count:", err);
+            throw new ThrowError("Failed to increment registration", 500, { error: err });
+        }
+    }
+
+
     public async deleteEvent(id: string): Promise<Result> {
         try {
             const result = await Event.deleteOne({ _id: id });

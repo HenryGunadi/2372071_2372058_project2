@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import { EventService } from "../services/eventService";
 import { sendErrorResponse, sendSuccessResponse } from "../utils/utils";
-import { createEventSchema, findOrDeleteSchema, registerEventSchema, updateEventSchema, updateRegistrationSchema } from "../validators/validators";
+import { createCertificateSchema, createEventSchema, findOrDeleteSchema, registerEventSchema, updateEventSchema, updateRegistrationSchema } from "../validators/validators";
 import { RegistrationService } from "../services/registrationService";
 import { IEvent } from "../models/event";
 import { IRegistration } from "../models/registration";
@@ -9,14 +9,17 @@ import QRCode from "qrcode";
 import { v4 as uuidv4 } from "uuid";
 import path from "path";
 import fs from "fs/promises";
+import CertifService from "../services/certifService";
 
 export class StaffController {
     protected eventService: EventService;
     protected registrationService: RegistrationService;
+    protected certifService: CertifService;
 
-    constructor(eventService: EventService, registrationService: RegistrationService) {
+    constructor(eventService: EventService, registrationService: RegistrationService, certifService: CertifService) {
         this.eventService = eventService;
         this.registrationService = registrationService;
+        this.certifService = certifService;
     }
 
     public findEvent = async (req: Request, res: Response, next: NextFunction) => {
@@ -37,6 +40,16 @@ export class StaffController {
             sendSuccessResponse(res, events);
         } catch (err) {
             console.error("Find event controller error : ", err);
+            sendErrorResponse(res, err);
+        }
+    };
+
+     public getAllRegistration = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const registration = await this.registrationService.getAllRegistrations();
+            sendSuccessResponse(res, registration);
+        } catch (err) {
+            console.error("Find registration controller error : ", err);
             sendErrorResponse(res, err);
         }
     };
@@ -123,13 +136,13 @@ export class StaffController {
         try {
             console.log("IM HERE");
             const registrations: IRegistration[] = await this.registrationService.getAllRegistrations();
+            console.log("Registration from controller: ", registrations)
             const registrationsWithEvent = await Promise.all(
                 registrations.map(async (reg) => {
                     const event = await this.eventService.findEvent(reg.event_id);
                     return { ...reg, event };
                 })
             );
-
             sendSuccessResponse(res, registrationsWithEvent);
         } catch (err) {
             console.error("Get all registrations controller error : ", err);
@@ -152,12 +165,65 @@ export class StaffController {
     public updateRegistration = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const payload = updateRegistrationSchema.parse(req.body);
+            console.log("update payload = ", payload)
             await this.registrationService.updateRegistration(payload.registration_id, payload.value);
-
+            if(payload.value.status === "paid"){
+                await this.eventService.incrementRegistrationIfAllowed(payload.value.event_id!);
+            }
             sendSuccessResponse(res, undefined, "The registration has been updated.");
         } catch (err) {
             console.error("Find event controller error : ", err);
             sendErrorResponse(res, err);
         }
     };
+
+    public scan = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { qr_code } = req.body;
+
+            if (!qr_code) {
+                // return res.status(400).json({ success: false, message: "QR code tidak ditemukan." });
+                sendErrorResponse(res, "QR code tidak ditemukan.")
+            }
+
+            const result = await this.registrationService.scanQrCode(qr_code);
+
+            // return res.status(200).json({
+            //     success: true,
+            //     message: "Berhasil check-in",
+            //     data: result.data,
+            // });
+
+            sendSuccessResponse(res, result.data, "berhasil check in")
+
+        } catch (err) {
+            console.error("Scan Error: ", err);
+            sendErrorResponse(res, err);
+        }
+    };
+
+    public createCertificate = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const certifUri = req.file?.filename ?? "";
+            const payload = createCertificateSchema.parse(req.body);
+
+            if (!certifUri || !payload.email) {
+                sendErrorResponse(res, "Certificate URI or email is missing");
+            }
+
+            const existingCertif = await this.certifService.findCertifByUri(certifUri);
+            if (existingCertif) {
+                const filePath = path.resolve(__dirname, "../uploads/certificates", existingCertif.file_uri);
+                await this.certifService.deleteFile(filePath);
+                await this.certifService.deleteCertif(certifUri);
+            }
+
+            await this.certifService.createCertif(payload.email, certifUri, payload.registration_id);
+            sendSuccessResponse(res, undefined, "✅ Certificate uploaded successfully.");
+        } catch (err) {
+            console.error("Create certificate controller error:", err);
+            sendErrorResponse(res, err);
+        }
+    };
+
 }

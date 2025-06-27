@@ -283,6 +283,36 @@
                 opacity: 1;
             }
         }
+        .btn-gradient-red {
+            background: linear-gradient(45deg, #dc2626, #991b1b);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient-red:hover {
+            background: linear-gradient(45deg, #b91c1c, #7f1d1d);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+            color: #fff;
+        }
+
+        .dropdown-menu {
+            background-color: #1a1a1a; /* dark background for dropdown */
+            border: 1px solid #2d2d2d;
+        }
+
+        .dropdown-item {
+            color: #f8f9fa;
+        }
+
+        .dropdown-item:hover {
+            background-color: #dc2626;
+            color: #fff;
+        }
     </style>
 
     <body>
@@ -413,168 +443,222 @@
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
         <script>
             const token = localStorage.getItem("token");
             const baseAPI = "http://localhost:8080/api";
+            const user = JSON.parse(localStorage.getItem("user"));
+            document.addEventListener("DOMContentLoaded", async () => {
+                const token = localStorage.getItem("token");
+                console.log("Cek login");
+
+                try {
+                    const res = await fetch("http://localhost:8080/api/dashboard/view", {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    const data = await res.json();
+
+                    // if (!res.ok) {
+                    //     console.log("Unauthorized")
+                    //     window.location.href = "login.html"
+                    // }
+
+                    if (res.ok) {
+                        console.log("Udah login");
+                        const authBtn = document.getElementById("auth-button");
+                        authBtn.outerHTML = `
+                <div id="auth-dropdown" class="dropdown ms-3">
+                    <button class="btn btn-gradient-red dropdown-toggle" type="button" id="profileMenu"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle me-2"></i> Profile
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="profileMenu">
+                    <li><a class="dropdown-item" href="/profile.html">View Profile</a></li>
+                    <li><a class="dropdown-item" href="#" id="logout-button">Logout</a></li>
+                    </ul>
+                </div>
+                `;
+                        document.addEventListener("click", function (e) {
+                            if (e.target && e.target.id === "logout-button") {
+                                localStorage.removeItem("token");
+                                localStorage.removeItem("user");
+                                window.location.href = "/login";
+                            }
+                        });
+
+                        console.log("GET response on page load:", data.message);
+                    }
+                } catch (err) {
+                    console.error("Error during initial GET request:", err);
+                }
+            });
 
             document.addEventListener("DOMContentLoaded", async () => {
-                // Ambil user dari localStorage
-                const user = JSON.parse(localStorage.getItem("user"));
-
-                if (user) {
-                    document.getElementById("nama").value = user.name;
-                    document.getElementById("email").value = user.email;
-                    document.getElementById("nama").readOnly = true;
-                    document.getElementById("email").readOnly = true;
-                } else {
-                    alert("Harap login terlebih dahulu.");
-                    return;
-                }
-
-                // Ambil ID event dari URL
                 const urlParams = new URLSearchParams(window.location.search);
                 const eventId = urlParams.get("id");
 
                 if (!eventId) {
-                    document.getElementById("event-detail").innerHTML = "<p class='text-center text-muted'>Event tidak ditemukan.</p>";
+                    document.getElementById("event-detail").innerHTML =
+                        "<p class='text-center text-muted'>Event tidak ditemukan.</p>";
                     return;
                 }
 
                 try {
-                    const response = await fetch(`/api/staff/${eventId}`);
+                    const response = await fetch(`${baseAPI}/staff/event/${eventId}`);
                     const { data: event } = await response.json();
 
-                    const eventDaysStr = event.event_days
-                        .map((day) => {
-                            const date = new Date(day.date).toLocaleDateString("id-ID", {
-                                weekday: "long",
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            });
-                            const start = new Date(day.start_time).toLocaleTimeString("id-ID", {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                            });
-                            const end = new Date(day.end_time).toLocaleTimeString("id-ID", {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                            });
-                            return `
-                              <div class="schedule-item">
+                    const eventDaysStr = event.event_days.map((day) => {
+                        const date = new Date(day.date).toLocaleDateString("id-ID", {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        });
+                        const start = new Date(day.start_time).toLocaleTimeString("id-ID", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        });
+                        const end = new Date(day.end_time).toLocaleTimeString("id-ID", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        });
+                        return `
+                            <div class="schedule-item mb-2">
                                 <div class="d-flex justify-content-between align-items-start">
-                                  <div>
-                                    <strong>${date}</strong><br>
-                                    <small><i class="bi bi-clock me-1"></i>${start} - ${end}</small>
-                                  </div>
-                                  <div class="text-end">
-                                    <small><i class="bi bi-geo-alt me-1"></i>${day.location}</small>
-                                  </div>
+                                    <div>
+                                        <strong>${date}</strong><br>
+                                        <small><i class="bi bi-clock me-1"></i>${start} - ${end}</small>
+                                    </div>
+                                    <div class="text-end">
+                                        <small><i class="bi bi-geo-alt me-1"></i>${day.location}</small>
+                                    </div>
                                 </div>
-                              </div>
-                            `;
-                        })
-                        .join("");
+                            </div>
+                        `;
+                    }).join("");
 
-                    const speakers = event.event_days.map((d) => d.speaker).filter((v, i, arr) => v && arr.indexOf(v) === i);
-
-                    const pembicaraStr = speakers.length ? speakers.map((p) => `<div class="speaker-item"><i class="bi bi-person-badge me-2"></i>${p}</div>`).join("") : "<p class='text-muted'>Pembicara akan diumumkan segera.</p>";
+                    const speakers = event.event_days
+                        .map((d) => d.speaker)
+                        .filter((v, i, arr) => v && arr.indexOf(v) === i);
+                    const pembicaraStr = speakers.length
+                        ? speakers.map((p) => `<div class="speaker-item"><i class="bi bi-person-badge me-2"></i>${p}</div>`).join("")
+                        : "<p class='text-muted'>Pembicara akan diumumkan segera.</p>";
 
                     const priceFormatted = new Intl.NumberFormat("id-ID", {
                         style: "currency",
                         currency: "IDR",
                     }).format(event.price);
 
+                    // Render detail event
                     document.getElementById("event-detail").innerHTML = `
-                      <div class="row align-items-start">
-                        <div class="col-lg-5 mb-4 mb-lg-0">
-                          <div class="event-poster bounce-in">
-                            <img src="/uploads/${event.poster_uri}" alt="${event.title}" class="img-fluid">
-                          </div>
+                        <div class="row align-items-start">
+                            <div class="col-lg-5 mb-4 mb-lg-0">
+                                <div class="event-poster bounce-in">
+                                    <img src="/uploads/${event.poster_uri}" alt="${event.title}" class="img-fluid rounded shadow-sm">
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="event-content">
+                                    ${event.price > 0
+                                        ? `<div class="price-tag"><i class="bi bi-tag-fill me-1"></i>${priceFormatted}</div>`
+                                        : '<div class="price-tag"><i class="bi bi-gift me-1"></i>GRATIS</div>'}
+                                    <h1 class="event-title">${event.title}</h1>
+                                    <p class="event-description">${event.deskripsi}</p>
+
+                                    <div class="info-section mt-4">
+                                        <h5><i class="bi bi-calendar-week me-2"></i>Jadwal & Lokasi</h5>
+                                        ${eventDaysStr}
+                                    </div>
+
+                                    <div class="info-section mt-4">
+                                        <h5><i class="bi bi-people-fill me-2"></i>Pembicara</h5>
+                                        ${pembicaraStr}
+                                    </div>
+
+                                    <div class="quota-badge mt-4">
+                                        <i class="bi bi-person-check me-2"></i>
+                                        Kuota Maksimum: <strong>${event.max_participants} orang</strong>
+                                        ${event.total_registered ? `<br><small>Terdaftar: ${event.total_registered} orang</small>` : ""}
+                                    </div>
+
+                                    <div class="text-center mt-4">
+                                        <button class="register-btn" id="openRegisterBtn" data-bs-toggle="modal" data-bs-target="#daftarModal">
+                                            <i class="bi bi-calendar-plus me-2"></i>
+                                            Daftar Sekarang
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-lg-7">
-                          <div class="event-content">
-                            ${event.price > 0 ? `<div class="price-tag"><i class="bi bi-tag-fill me-1"></i>${priceFormatted}</div>` : '<div class="price-tag"><i class="bi bi-gift me-1"></i>GRATIS</div>'}
-                            <h1 class="event-title">${event.title}</h1>
-                            <p class="event-description">${event.deskripsi}</p>
-
-                            <div class="info-section">
-                              <h5><i class="bi bi-calendar-week me-2"></i>Jadwal & Lokasi</h5>
-                              ${eventDaysStr}
-                            </div>
-
-                            <div class="info-section">
-                              <h5><i class="bi bi-people-fill me-2"></i>Pembicara</h5>
-                              ${pembicaraStr}
-                            </div>
-
-                            <div class="quota-badge">
-                              <i class="bi bi-person-check me-2"></i>
-                              Kuota Maksimum: <strong>${event.max_participants} orang</strong>
-                              ${event.total_registered ? `<br><small>Terdaftar: ${event.total_registered} orang</small>` : ""}
-                            </div>
-
-                            <div class="text-center mt-4">
-                              <button class="register-btn" data-bs-toggle="modal" data-bs-target="#daftarModal">
-                                <i class="bi bi-calendar-plus me-2"></i>
-                                Daftar Sekarang
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     `;
+
+                    // Klik tombol daftar
+                    document.getElementById("openRegisterBtn").addEventListener("click", (e) => {
+                        if (!token || !user) {
+                            window.location.href = "login.html";
+                        } else {
+                            // Isi otomatis nama dan email
+                            document.getElementById("nama").value = user.name;
+                            document.getElementById("email").value = user.email;
+                            document.getElementById("nama").readOnly = true;
+                            document.getElementById("email").readOnly = true;
+                        }
+                    });
+
                 } catch (error) {
                     console.error("Gagal mengambil detail event:", error);
                     document.getElementById("event-detail").innerHTML = `
-                    <div class="text-center py-5">
-                      <i class="bi bi-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
-                      <h3 class="mt-3 text-muted">Gagal memuat detail event</h3>
-                      <p class="text-muted">Silakan coba lagi nanti atau hubungi administrator.</p>
-                    </div>
-                  `;
+                        <div class="text-center py-5">
+                            <i class="bi bi-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+                            <h3 class="mt-3 text-muted">Gagal memuat detail event</h3>
+                            <p class="text-muted">Silakan coba lagi nanti atau hubungi administrator.</p>
+                        </div>
+                    `;
                 }
 
-                document.getElementById("daftarForm").addEventListener("submit", async (e) => {
-                    e.preventDefault();
+                // Form pendaftaran
+                const form = document.getElementById("daftarForm");
+                if (form) {
+                    form.addEventListener("submit", async (e) => {
+                        e.preventDefault();
 
-                    const form = e.target;
-                    const bukti = document.getElementById("bukti").files[0];
-                    const formData = new FormData();
-                    console.log("User Email : ", user.email);
+                        const bukti = document.getElementById("bukti").files[0];
+                        const formData = new FormData();
 
-                    formData.append("email", user.email);
-                    formData.append("proof_of_payment", bukti);
-                    formData.append("event_id", eventId);
+                        formData.append("email", user.email);
+                        formData.append("proof_of_payment", bukti);
+                        formData.append("event_id", eventId);
 
-                    try {
-                        const response = await fetch(`${baseAPI}/member/registerEvent?email=${user.email}`, {
-                            method: "POST",
-                            body: formData,
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        });
+                        try {
+                            const response = await fetch(`${baseAPI}/member/registerEvent?email=${user.email}`, {
+                                method: "POST",
+                                body: formData,
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
+                            });
 
-                        if (!response.ok) {
-                            throw new Error("Failed to send data to the server");
-                            console.log("Register event response : ", response.data);
+                            if (!response.ok) {
+                                throw new Error("Gagal mengirim data ke server.");
+                            }
+
+                            const result = await response.json();
+                            alert("Pendaftaran berhasil!");
+
+                            const modal = bootstrap.Modal.getInstance(document.getElementById("daftarModal"));
+                            modal.hide();
+                            form.reset();
+                        } catch (err) {
+                            console.error("Gagal mendaftar:", err);
+                            alert("Terjadi kesalahan saat mendaftar. Coba lagi.");
                         }
-
-                        const result = await response.json();
-                        console.log("Success:", result);
-
-                        alert("Form berhasil dikirim!\n(Nama: " + nama + ", Email: " + email + ")");
-                        const modal = bootstrap.Modal.getInstance(document.getElementById("daftarModal"));
-                        modal.hide();
-                        form.reset();
-                    } catch (err) {
-                        console.error("Something went wrong", err);
-                        alert("Terjadi kesalahan saat mengirim data. Silakan coba lagi.");
-                    }
-                });
+                    });
+                }
             });
         </script>
+
     </body>
 </html>

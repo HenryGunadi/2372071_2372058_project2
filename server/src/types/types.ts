@@ -72,8 +72,12 @@ export interface IEventService {
 }
 
 export interface IRegistrationService {
-    findRegistration(id: string): Promise<Result<IRegistration>>;
+    findRegistration(id: string): Promise<Omit<IRegistration, keyof Document>>;
     getAllRegistrations(): Promise<IRegistration[]>;
     updateRegistration(id: string, value: Partial<IRegistration>): Promise<Result>;
     deleteRegistration(id: string): Promise<Result>;
+}
+
+export interface ICertifService {
+    createCertif(email: string, certifUri: string):Promise<void>;
 }

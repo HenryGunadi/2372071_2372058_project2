@@ -10,7 +10,7 @@ import path from "path";
 import fs from "fs/promises";
 
 export class RegistrationService implements IRegistrationService {
-    public async findRegistration(id: string): Promise<Result<IRegistration>> {
+    public async findRegistration(id: string): Promise<Omit<IRegistration, keyof Document>> {
         try {
             const event = await Registration.findById(id);
 
@@ -27,7 +27,9 @@ export class RegistrationService implements IRegistrationService {
 
     public async getAllRegistrations(): Promise<IRegistration[]> {
         try {
+            console.log("HALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             const registrations = await Registration.find().lean<IRegistration[]>();
+            console.log("Registration", registrations)
             return registrations;
         } catch (err) {
             console.error("Error getting registrations: ", err);
@@ -81,4 +83,44 @@ export class RegistrationService implements IRegistrationService {
             throw new ThrowError("Failed to delete event", 500, { error: err });
         }
     }
+
+    public async scanQrCode(qr_code: string): Promise<Result> {
+        try {
+            if (!qr_code) throw new ThrowError("QR code kosong", 400);
+
+            const parsed = JSON.parse(qr_code);
+            const { r: registrationId, e: eventId, s: secret } = parsed;
+
+            if (!registrationId || !eventId || !secret)
+                throw new ThrowError("QR code tidak valid", 400);
+
+            const registration = await Registration.findOne({
+                _id: registrationId,
+                event_id: eventId,
+            });
+
+            if (!registration) throw new ThrowError("Registrasi tidak ditemukan", 404);
+            if (registration.qr_secret !== secret) throw new ThrowError("QR code tidak cocok", 403);
+            if (!registration.absence) throw new ThrowError("Peserta sudah check-in sebelumnya", 409);
+
+            registration.absence = false;
+            registration.updated_at = new Date();
+            await registration.save();
+
+            return {
+                success: true,
+                data: {
+                    email: registration.email,
+                    registration_id: registration._id,
+                    event_id: registration.event_id,
+                },
+            };
+        } catch (err) {
+            console.error("QR Scan Error:", err);
+            throw err instanceof ThrowError
+                ? err
+                : new ThrowError("Gagal memproses QR code", 500, { error: err });
+        }
+    }
+
 }

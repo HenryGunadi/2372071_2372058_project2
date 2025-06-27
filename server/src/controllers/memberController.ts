@@ -63,4 +63,16 @@ export class MemberController {
             sendErrorResponse(res, err);
         }
     };
+    public viewcertificates = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const email = req.query.email as string;
+            const result = await this.service.viewCertificates(email);
+            console.log("View Certificates : ", result);
+            sendSuccessResponse(res, result);
+        } catch (err) {
+            console.error("Error getting member in member controller : ", err);
+            sendErrorResponse(res, err);
+        }
+    };
+
 }

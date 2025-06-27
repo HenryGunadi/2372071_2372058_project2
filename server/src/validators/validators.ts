@@ -1,4 +1,5 @@
 import { z } from "zod";
+import Registration from "../models/registration";
 
 export const findOrDeleteStaffSchema = z.object({
     email: z.string().email(),
@@ -102,4 +103,9 @@ export const updateRegistrationSchema = z.object({
         event_id: z.string().min(1).optional(),
         updated_at: z.preprocess((arg) => (typeof arg === "string" || arg instanceof Date ? new Date(arg) : undefined), z.date().optional()),
     }),
+});
+
+export const createCertificateSchema = z.object({
+    email: z.string().email("Invalid email address"),
+    registration_id: z.string()
 });

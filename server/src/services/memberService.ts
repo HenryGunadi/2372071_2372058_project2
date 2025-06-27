@@ -4,6 +4,7 @@ import User, { IUser } from "../models/user";
 import { ThrowError } from "../middleware/throwError";
 import Registration, { IRegistration } from "../models/registration";
 import Event, { IEvent } from "../models/event";
+import Certificate from "../models/certificate";
 
 class MemberService implements IMemberService {
     public async viewMember(email: string): Promise<Result<IUser>> {
@@ -46,6 +47,16 @@ class MemberService implements IMemberService {
         try {
             const user = await Registration.create(registration);
             await user.save();
+        } catch (err) {
+            console.error("Error adding staff : ", err);
+            throw new ThrowError("Failed to add staff", 500, { error: err });
+        }
+    }
+
+    public async viewCertificates(email: string): Promise<Result> {
+        try {
+            const certificates = await Certificate.find({email: email});
+            return certificates;
         } catch (err) {
             console.error("Error adding staff : ", err);
             throw new ThrowError("Failed to add staff", 500, { error: err });
